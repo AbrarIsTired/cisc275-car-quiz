@@ -29,7 +29,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Abrar Nomani: Edit <code>src/App.tsx</code> commit then save. Don't forget to add your name.
         </p>
         <a
           className="App-link"
