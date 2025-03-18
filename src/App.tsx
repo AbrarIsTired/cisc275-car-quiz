@@ -31,7 +31,13 @@ function App() {
         <p>
           We need to make a branch of our repo, add our name on the local copy then PR it. Hopefully unrelated histories doesn't strike again
         </p>
-        <p>Sophia Zhang</p>
+        <p>
+           Sophia Zhang
+        </p>
+        <p>
+          Aaron Riley
+        </p>
+        main
         <a
           className="App-link"
           href="https://reactjs.org"
