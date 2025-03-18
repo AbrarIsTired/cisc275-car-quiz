@@ -29,13 +29,16 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          We need to make a branch of our repo, add our name on the local copy then PR it. Hopefully unrelated histories doesn't strike again
+          Maybe the real Pull Request were the Unrelated Histories we made along the way
         </p>
         <p>
            Sophia Zhang
         </p>
         <p>
           Aaron Riley
+        </p>
+        <p>
+          Abrar Nomani
         </p>
         main
         <a
