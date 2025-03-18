@@ -29,7 +29,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> commit then save. Don't forget to add your name. Abrar Nomani
+          We need to make a branch of our repo, add our name on the local copy then PR it. Hopefully unrelated histories doesn't strike again
         </p>
         <a
           className="App-link"
