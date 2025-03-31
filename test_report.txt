@@ -2,21 +2,50 @@
 > starter_helpi@0.1.0 test
 > react-scripts test --coverage
 
-PASS src/App.test.tsx
-  ✓ renders learn react link (37 ms)
+FAIL src/App.test.tsx
+  ● Test suite failed to run
 
---------------------|---------|----------|---------|---------|-------------------
-File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
---------------------|---------|----------|---------|---------|-------------------
-All files           |   28.57 |    16.66 |      20 |   28.57 |                   
- App.tsx            |      60 |       50 |   33.33 |      60 | 11,19-25          
- index.tsx          |       0 |      100 |     100 |       0 | 7-19              
- reportWebVitals.ts |       0 |        0 |       0 |       0 | 3-10              
---------------------|---------|----------|---------|---------|-------------------
-Test Suites: 1 passed, 1 total
-Tests:       1 passed, 1 total
+    Cannot find module 'react-router-dom' from 'src/App.tsx'
+
+    Require stack:
+      src/App.tsx
+      src/App.test.tsx
+
+      1 | // App.tsx
+      2 | import React from 'react';
+    > 3 | import { HashRouter, Routes, Route } from 'react-router-dom';
+        | ^
+      4 | import MainLayout from './Components/MainLayout';
+      5 | import Home from './Pages/Home';
+      6 | import About from './Pages/About';
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/App.tsx:3:1)
+      at Object.<anonymous> (src/App.test.tsx:3:1)
+      at TestScheduler.scheduleTests (node_modules/@jest/core/build/TestScheduler.js:333:13)
+      at runJest (node_modules/@jest/core/build/runJest.js:404:19)
+      at _run10000 (node_modules/@jest/core/build/cli/index.js:320:7)
+      at runCLI (node_modules/@jest/core/build/cli/index.js:173:3)
+
+---------------------|---------|----------|---------|---------|-------------------
+File                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------|---------|----------|---------|---------|-------------------
+All files            |       0 |        0 |       0 |       0 |                   
+ src                 |       0 |        0 |       0 |       0 |                   
+  App.tsx            |       0 |      100 |       0 |       0 | 11                
+  index.tsx          |       0 |      100 |     100 |       0 | 7-19              
+  reportWebVitals.ts |       0 |        0 |       0 |       0 | 3-10              
+ src/Components      |       0 |        0 |       0 |       0 |                   
+  MainLayout.tsx     |       0 |        0 |       0 |       0 | 10-29             
+ src/Pages           |       0 |      100 |       0 |       0 |                   
+  About.tsx          |       0 |      100 |       0 |       0 | 5                 
+  Home.tsx           |       0 |      100 |       0 |       0 | 5                 
+  Test.tsx           |       0 |      100 |       0 |       0 | 5                 
+---------------------|---------|----------|---------|---------|-------------------
+Test Suites: 1 failed, 1 total
+Tests:       0 total
 Snapshots:   0 total
-Time:        2.568 s
+Time:        2.639 s
 Ran all test suites.
 [0;33mOne of your dependencies, babel-preset-react-app, is importing the
 "@babel/plugin-proposal-private-property-in-object" package without
