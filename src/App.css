@@ -9,18 +9,17 @@
   height: 80px;
 }
 
-.App-header {
-  background-color: #282c34;
-  padding: 20px;
-  display: flex;
+.App-footer {
+  background-color: #3c4e73;
+  padding: 10px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 1vmin);
   color: white;
 }
 
-.container {
+.api-container {
+  width: 50%;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -29,8 +28,7 @@
 .content-area {
   background-color: #f8f9fa;
   border-radius: 8px;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 150px;
   border: 1px solid #ddd;
 }
 
@@ -52,7 +50,7 @@
 
 .main-nav a {
   text-decoration: none;
-  color: #0066cc;
+  color: #53443e;
   font-weight: bold;
   font-size: 18px;
   padding: 5px 10px;
@@ -60,7 +58,7 @@
 }
 
 .main-nav a:hover {
-  background-color: #e9f5ff;
+  background-color: #fff7e9;
 }
 
 .page-content {
@@ -83,4 +81,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.link-button {
+  background-color: #ca7718;
+  color: white;
+  font-weight: bold;
+  font-size: larger;
+  text-decoration: none;
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.link-button:hover{
+  background-color: #e18720;
+  color: white;
 }

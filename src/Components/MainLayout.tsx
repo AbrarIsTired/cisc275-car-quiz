@@ -28,15 +28,6 @@ function MainLayout() {
   
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          CISC275 Career Quiz Project
-        </p>
-        <p>
-          Made By: Sophia Zhang, Aaron Riley, Abrar Nomani
-        </p>
-      </header>
       
         {/* Navigation */}
         <nav className="main-nav mt-4">
@@ -59,17 +50,25 @@ function MainLayout() {
 
         
         
-        <div className="container">
+        <div className="api-container" >
         <Form className="mt-4">
-          <Form.Label>Insert API Key:</Form.Label>
+          <Form.Label>Enter API Key:</Form.Label>
           <Form.Control type="password" placeholder="Insert API Key Here" onChange={changeKey}></Form.Control>
           <br></br>
           <Button className="Submit-Button" onClick={handleSubmit}>Submit</Button>
         </Form>
-
-
         </div>
       </div>
+
+      <header className="App-footer">
+        <div style={{textAlign: "left", display: "inline-block", width: "50%"}}>
+          <img src={logo} className="App-logo" alt="logo" />
+          CISC275 Career Quiz Project
+        </div>
+        <div style={{textAlign: "right", display: "inline-block", width: "50%", paddingRight: "30px"}}>
+          Sophia Zhang, Aaron Riley, Abrar Nomani
+        </div>
+      </header>
     </div>
   );
 }

@@ -1,12 +1,13 @@
 // src/Pages/Home.tsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
     <div className="page-content">
-      <h2>Home Page</h2>
-      <p>Home Page</p>
-      <p>Make any edits and decorations to src/Pages/Home.tsx alter this lil box</p>
+      <h1>Welcome to Car Quiz</h1>
+      <p>It's careering time</p>
+      <Link to="/basic-quiz" className='link-button'>Take Basic Quiz</Link>
     </div>
   );
 }
