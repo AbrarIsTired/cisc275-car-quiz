@@ -1,14 +1,17 @@
 /* index.css */
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  padding: 20px;
+    sans-serif;  
+  color:#211d1b;
+}
+
+h1 {
+  font-size: calc(2rem + 1.5vw);
 }
 
 nav {
-  background-color: #f0f0f0;
+  background-color: white;
   padding: 15px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -27,16 +30,13 @@ nav li {
 
 nav a {
   text-decoration: none;
-  color: #333;
+  color: #8e6152;
   font-weight: bold;
 }
 
 nav a:hover {
-  color: #0066cc;
+  color: #8e6152;
 }
 
-.App {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.App { 
 }

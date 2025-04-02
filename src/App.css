@@ -9,28 +9,36 @@
   height: 80px;
 }
 
-.App-header {
-  background-color: #282c34;
-  padding: 20px;
-  display: flex;
+.App-footer {
+  background-color: #3c4e73;
+  padding: 10px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 1vmin);
   color: white;
 }
 
-.container {
+.api-container {
+  background-color: white;
+  width: 29%;
+  height: 80%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 25px;
+  border-radius: 30px;
+  border-color: #e4e9ed;
+  border-style: solid;
+  font-size: 20px;
+  font-family:'Trebuchet MS';
+  display: inline-block;
+  text-align: center;
 }
+
 
 .content-area {
   background-color: #f8f9fa;
   border-radius: 8px;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 150px;
   border: 1px solid #ddd;
 }
 
@@ -52,7 +60,7 @@
 
 .main-nav a {
   text-decoration: none;
-  color: #0066cc;
+  color: #53443e;
   font-weight: bold;
   font-size: 18px;
   padding: 5px 10px;
@@ -60,7 +68,7 @@
 }
 
 .main-nav a:hover {
-  background-color: #e9f5ff;
+  background-color: #fff7e9;
 }
 
 .page-content {
@@ -68,8 +76,12 @@
 }
 
 .Submit-Button {
-  background-color: #0066cc;
+  background-color: #3c4e73;
   border: none;
+}
+
+.Submit-Button:hover {
+  background-color: #465f8f;
 }
 
 .mt-4 {
@@ -83,4 +95,30 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.link-button {
+  background-color: #ca7718;
+  color: white;
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+  text-decoration: none;
+  width: 220px;
+  height: 40%;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  display: inline;
+}
+
+.link-button:hover{
+  background-color: #d68527;
+  color: white;
+}
+
+.quiz-info {
+  padding: 20px;
+  display: flex;
 }
