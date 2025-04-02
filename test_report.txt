@@ -32,20 +32,21 @@ File                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #
 ---------------------|---------|----------|---------|---------|-------------------
 All files            |       0 |        0 |       0 |       0 |                   
  src                 |       0 |        0 |       0 |       0 |                   
-  App.tsx            |       0 |      100 |       0 |       0 | 11                
+  App.tsx            |       0 |      100 |       0 |       0 | 12                
   index.tsx          |       0 |      100 |     100 |       0 | 7-19              
   reportWebVitals.ts |       0 |        0 |       0 |       0 | 3-10              
- src/Components      |       0 |        0 |       0 |       0 |                   
-  MainLayout.tsx     |       0 |        0 |       0 |       0 | 10-29             
- src/Pages           |       0 |      100 |       0 |       0 |                   
+ src/Components      |       0 |      100 |       0 |       0 |                   
+  MainLayout.tsx     |       0 |      100 |       0 |       0 | 10                
+ src/Pages           |       0 |        0 |       0 |       0 |                   
   About.tsx          |       0 |      100 |       0 |       0 | 5                 
-  Home.tsx           |       0 |      100 |       0 |       0 | 5                 
-  Test.tsx           |       0 |      100 |       0 |       0 | 5                 
+  BasicQuiz.tsx      |       0 |      100 |       0 |       0 | 5                 
+  DetailedQuiz.tsx   |       0 |      100 |       0 |       0 | 5                 
+  Home.tsx           |       0 |        0 |       0 |       0 | 7-26              
 ---------------------|---------|----------|---------|---------|-------------------
 Test Suites: 1 failed, 1 total
 Tests:       0 total
 Snapshots:   0 total
-Time:        2.639 s
+Time:        2.664 s
 Ran all test suites.
 [0;33mOne of your dependencies, babel-preset-react-app, is importing the
 "@babel/plugin-proposal-private-property-in-object" package without
