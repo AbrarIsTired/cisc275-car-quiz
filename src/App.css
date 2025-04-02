@@ -19,11 +19,21 @@
 }
 
 .api-container {
-  width: 50%;
+  background-color: white;
+  width: 29%;
+  height: 80%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 25px;
+  border-radius: 30px;
+  border-color: #e4e9ed;
+  border-style: solid;
+  font-size: 20px;
+  font-family:'Trebuchet MS';
+  display: inline-block;
+  text-align: center;
 }
+
 
 .content-area {
   background-color: #f8f9fa;
@@ -66,8 +76,12 @@
 }
 
 .Submit-Button {
-  background-color: #0066cc;
+  background-color: #3c4e73;
   border: none;
+}
+
+.Submit-Button:hover {
+  background-color: #465f8f;
 }
 
 .mt-4 {
@@ -88,14 +102,23 @@
   color: white;
   font-weight: bold;
   font-size: larger;
+  text-align: center;
   text-decoration: none;
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 40%;
   padding: 20px;
+  margin-top: 20px;
   border-radius: 10px;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  display: inline;
 }
 
 .link-button:hover{
-  background-color: #e18720;
+  background-color: #d68527;
   color: white;
+}
+
+.quiz-info {
+  padding: 20px;
+  display: flex;
 }
