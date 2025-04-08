@@ -1,13 +1,27 @@
-// src/Pages/Basic-Quiz.tsx
-import React from 'react';
+// src/Pages/BasicQuiz.tsx
+import React, { useState } from 'react';
+
+interface FormData {
+  industry: string;
+  teamWork: string;
+  creative: string;
+  workPace: string;
+  learnNewSkills: string;
+  remote: string;
+  educationLevel: string;
+}
 
 function Basic_Quiz() {
-  return (
-    <div className="page-content">
-      <h2>Basic Quiz</h2>
-      <p>it's basic quizzing time</p>
-    </div>
-  );
+  const [formData, setFormData] = useState<FormData>({
+    industry: '',
+    teamWork: '',
+    creative: '',
+    workPace: '',
+    learnNewSkills: '',
+    remote: '',
+    educationLevel: ''
+  });
+
 }
 
 export default Basic_Quiz;
