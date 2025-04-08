@@ -141,7 +141,73 @@ function Basic_Quiz() {
             </div>
           </div>
 
-          {/* We'll add more questions in future commits */}
+          {/* Question 4: Work Pace */}
+          <div className="question-container">
+            <h3>Question 4</h3>
+            <p className="question-text">Do you prefer a slower or faster paced work environment?</p>
+            <div className="options-container">
+              {['Slower', 'Faster'].map((option) => (
+                <div className="option" key={option}>
+                  <input
+                    type="radio"
+                    id={`workPace-${option}`}
+                    name="workPace"
+                    value={option}
+                    checked={formData.workPace === option}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label htmlFor={`workPace-${option}`}>{option}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Question 5: Learn New Skills */}
+          <div className="question-container">
+            <h3>Question 5</h3>
+            <p className="question-text">Are you comfortable with learning new skills in everchanging fields?</p>
+            <div className="options-container">
+              {['Yes', 'No'].map((option) => (
+                <div className="option" key={option}>
+                  <input
+                    type="radio"
+                    id={`learnNewSkills-${option}`}
+                    name="learnNewSkills"
+                    value={option}
+                    checked={formData.learnNewSkills === option}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label htmlFor={`learnNewSkills-${option}`}>{option}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Question 6: Remote Work */}
+          <div className="question-container">
+            <h3>Question 6</h3>
+            <p className="question-text">Do you want to work remotely?</p>
+            <div className="options-container">
+              {['Yes', 'No'].map((option) => (
+                <div className="option" key={option}>
+                  <input
+                    type="radio"
+                    id={`remote-${option}`}
+                    name="remote"
+                    value={option}
+                    checked={formData.remote === option}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label htmlFor={`remote-${option}`}>{option}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* We'll add the last question in the next commit */}
           
           {/* Submit button appears only when all questions are answered */}
           {allQuestionsAnswered && (
