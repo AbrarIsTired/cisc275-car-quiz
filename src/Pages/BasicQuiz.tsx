@@ -11,9 +11,8 @@ interface FormData {
   educationLevel: string;    // Answer to education level question
 }
 
-
+  // State Management
 function Basic_Quiz() {
-  // Managing State
   const [formData, setFormData] = useState<FormData>({
     industry: '',
     teamWork: '',
@@ -24,54 +23,51 @@ function Basic_Quiz() {
     educationLevel: ''
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
+  //useState Hooks for tracking form status
+  const [submitted, setSubmitted] = useState(false); //Submitted Question: T or F State
+  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false); //All Questions Answered: T or F State
 
-  // Event Handling
+  //Handling Events
+
+  //On Radio button click
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;  // Extract the field name and new value
+    const { name, value } = e.target;
     
-    // Create a new formData object with the updated value
-    // Copy all existing formData properties
-    //Then replace it with the copy
+
+    //New form object which is a copy of the old one just with whatever is filled in
     const updatedFormData = {
       ...formData,
-      [name]: value 
+      [name]: value
     };
     
-    // Update the state with our new data
+    //Update state with new data
     setFormData(updatedFormData);
     
-    // Check if all questions are now answered
+    // Check if all questions are answered
     checkAllQuestionsAnswered(updatedFormData);
   };
 
-
   const checkAllQuestionsAnswered = (data: FormData) => {
-    // The condition checks if each value is NOT an empty string
+    // Check if all fields have a non-empty value
     const allAnswered = Object.values(data).every(value => value !== '');
     
-    // Update our state based on whether all questions are answered
     setAllQuestionsAnswered(allAnswered);
   };
 
 
+  //Altering the states when submitting the form
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();  // Prevents the page from reloading on form submission
-    
-    // Log the form data to the console (useful for debugging)
+    e.preventDefault();
     console.log('Form submitted:', formData);
-    
-    // Update state to show the thank you message
     setSubmitted(true);
-    
-    // SEND DATA FROM HERE TO CHATGPT/OPENAI
+    // SEND QUIZ ANSWERS TO THE PRINCIPALS OFFICE AND HAVE HIM EXPELLED (Sent it to ChatGPT)
   };
 
+  // Rendering the Fender Bender
   return (
     <div className="page-content">
       <h2>Basic Quiz</h2>
-      <p>Answer these questions to help determine your ideal career path</p>
+      <p>Answer these 7 questions to help determine your ideal career path</p>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
@@ -207,19 +203,38 @@ function Basic_Quiz() {
             </div>
           </div>
 
-          {/* We'll add the last question in the next commit */}
+          {/* Question 7: Education Level */}
+          <div className="question-container">
+            <h3>Question 7</h3>
+            <p className="question-text">What is the highest level of education you have completed?</p>
+            <div className="options-container">
+              {['PHD', 'Masters', 'Bachelors', 'Associates', 'High School/GED Equivalent', 'N/A'].map((option) => (
+                <div className="option" key={option}>
+                  <input
+                    type="radio"
+                    id={`educationLevel-${option}`}
+                    name="educationLevel"
+                    value={option}
+                    checked={formData.educationLevel === option}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label htmlFor={`educationLevel-${option}`}>{option}</label>
+                </div>
+              ))}
+            </div>
+          </div>
           
-          {/* Submit button appears only when all questions are answered */}
           {allQuestionsAnswered && (
             <button type="submit" className="submit-button">Submit Quiz</button>
           )}
         </form>
       ) : (
         <div className="completion-container">
-          <h3>Thank you for completing the quiz!</h3>
-          <p>Your responses have been recorded. We'll analyze your answers and provide career insights soon.</p>
+          <h3>You have completed the Basic Career Quiz</h3>
+          <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
           <button onClick={() => setSubmitted(false)} className="retake-button">
-            Retake Quiz
+            Retake Basic Quiz
           </button>
         </div>
       )}
