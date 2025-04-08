@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/cisc275-car-quiz/static/css/main.e00cb951.css",
+    "main.js": "/cisc275-car-quiz/static/js/main.cdf64fc5.js",
+    "static/js/453.bad6c33a.chunk.js": "/cisc275-car-quiz/static/js/453.bad6c33a.chunk.js",
+    "static/media/logo.svg": "/cisc275-car-quiz/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/cisc275-car-quiz/index.html",
+    "main.e00cb951.css.map": "/cisc275-car-quiz/static/css/main.e00cb951.css.map",
+    "main.cdf64fc5.js.map": "/cisc275-car-quiz/static/js/main.cdf64fc5.js.map",
+    "453.bad6c33a.chunk.js.map": "/cisc275-car-quiz/static/js/453.bad6c33a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e00cb951.css",
+    "static/js/main.cdf64fc5.js"
+  ]
+}
