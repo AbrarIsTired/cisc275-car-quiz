@@ -122,3 +122,27 @@
   padding: 20px;
   display: flex;
 }
+
+.help-chat {
+  height: 30%;
+  width: 20%; 
+  border-radius: .25rem;
+  border: solid;
+  border-color: black;
+  position: fixed;
+  background: white;
+  bottom: 110px;
+  right: 10px;
+  padding: 10px;
+}
+
+.chat-button, .chat-button:hover {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+  font-size: 40px;
+  position: fixed;
+  bottom: 110px;
+  right: 10px;
+  transition: none;
+}
