@@ -1,7 +1,5 @@
 // src/Pages/DetailedQuiz.tsx
 import React, { useState } from 'react';
-import { Form } from "react-bootstrap";
-
 
 interface FormData{
   industry: string;
@@ -63,19 +61,28 @@ function DetailedQuiz() {
       <p>it's detailed quizzing time</p>
 
       {!submitted ? (
-        <form onSubmit={handleSubmit} className = "quiz-form">
-          <div className = "question-container">
-            {/*Question 1*/}
-            <h3>Question 1</h3>
-            <p className = "question-text">Give a brief description of the industry you would like to work in?</p>
-            <div>
-              <Form.Group controlId="formWrittenResponse">
-                <Form.Control
-                placeholder='Enter response here'
-                onChange={handleInputChange} />
-              </Form.Group>
-            </div>
+        <form onSubmit={handleSubmit} className="quiz-form">
+        {/* Question 1: Industry */}
+        <div className="question-container">
+          <h3>Question 1</h3>
+          <p className="question-text">What industry would you be most interested in working in?</p>
+          <div className="options-container">
+            {['STEM', 'Medicine', 'Finance/Economics', 'Business Administration/Management', 'Creative arts and humanities'].map((option) => (
+              <div className="option" key={option}>
+                <input
+                  type="radio"
+                  id={`industry-${option}`}
+                  name="industry"
+                  value={option}
+                  checked={formData.industry === option}
+                  onChange={handleInputChange}
+                  required
+                />
+                <label htmlFor={`industry-${option}`}>{option}</label>
+              </div>
+            ))}
           </div>
+        </div>
 
           <div className = "question-container">
             {/*Question 2*/}
@@ -212,7 +219,7 @@ function DetailedQuiz() {
           <div className = "question-container">
             {/*Question 7b*/}
             <h3>Question 7b</h3>
-            <p className = "question-text">If you chose team, what team sixe would you work in best?</p>
+            <p className = "question-text">If you chose team, what team size would you work in best?</p>
             <div className = "options-container">
               {['2-4','5-7','8-10','11+'].map((option) => (
                 <div className="option" key={option}>
