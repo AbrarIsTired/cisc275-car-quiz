@@ -58,7 +58,7 @@ function DetailedQuiz() {
   return (
     <div className="page-content">
       <h2>Detailed Quiz</h2>
-      <p>it's detailed quizzing time</p>
+      <p>Answer these 9 questions to help determine your ideal career path</p>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
