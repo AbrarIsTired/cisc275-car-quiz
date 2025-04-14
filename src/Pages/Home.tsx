@@ -34,7 +34,7 @@ function Home() {
         <div className='quiz-info'>
           <div style={{width: "70%", display: "inline-block"}}>
             <h2>Basic Quiz</h2>
-            <p>Basic quiz description</p>
+            <p>Basic Career Quiz (Estimated Time: 5 Minutes)</p>
           </div>
           <Link to="/basic-quiz" className='link-button'>Take Basic Quiz</Link>
         </div>
@@ -42,7 +42,7 @@ function Home() {
         <div className='quiz-info'>
           <div style={{width: "70%", display: "inline-block"}}>
             <h2>Detailed Quiz</h2>
-            <p>Detailed quiz description</p>  
+            <p>Detailed Career Quiz (Estimated Time: 9999999 Minutes)</p>  
           </div>
           <Link to="/detailed-quiz" className='link-button'>Take Detailed Quiz</Link>
         </div>
