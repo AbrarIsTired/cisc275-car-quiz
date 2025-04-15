@@ -32,17 +32,17 @@ function Home() {
         <br></br>
 
         <div className='quiz-info'>
-          <div style={{width: "70%", display: "inline-block"}}>
+          <div style={{width: "75%", display: "inline-block"}}>
             <h2>Basic Quiz</h2>
-            <p>Basic quiz description</p>
+            <p>A quick and simple quiz that uses your responses to give a very general idea of what career path you could take.</p>
           </div>
           <Link to="/basic-quiz" className='link-button'>Take Basic Quiz</Link>
         </div>
         <hr></hr>
         <div className='quiz-info'>
-          <div style={{width: "70%", display: "inline-block"}}>
+          <div style={{width: "75%", display: "inline-block"}}>
             <h2>Detailed Quiz</h2>
-            <p>Detailed quiz description</p>  
+            <p>A more in depth quiz that uses more specific responses to better reflect what you value in a career to further narrow down your possible path.</p>  
           </div>
           <Link to="/detailed-quiz" className='link-button'>Take Detailed Quiz</Link>
         </div>
