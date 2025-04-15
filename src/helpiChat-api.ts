@@ -1,6 +1,9 @@
 import OpenAI from 'openai';
 
-const helpiChat = new OpenAI();
+
+const api_key = localStorage.getItem("MYKEY");
+
+const helpiChat = new OpenAI({apiKey: api_key ?? ""});
 
 // const response = await helpiChat.responses.create({
 //   model: "gpt-4o",
@@ -25,7 +28,9 @@ export async function getResponse(message: string): Promise<string> {
         role: "system",
         content: "Find the ideal career for the user based on their responses, and provide information on their career."
       }
-    ]
+    ],
+    temperature: 0.5,
+    
   });
   console.log(message);
   console.log(response.output_text)
