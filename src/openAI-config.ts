@@ -33,6 +33,7 @@ export async function callOpenAI_API(message: string) {
 }
 
 // WIP for when we want to handle errors for invalid user-inputed/localstorage API key 
+/*
 async function getOpenAI_API(key: string): Promise<OpenAI | undefined>{
     let client;
     try {
@@ -46,3 +47,4 @@ async function getOpenAI_API(key: string): Promise<OpenAI | undefined>{
     }
     return client
 }
+*/
