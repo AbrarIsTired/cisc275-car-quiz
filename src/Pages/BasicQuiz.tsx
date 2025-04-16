@@ -63,6 +63,17 @@ function Basic_Quiz() {
     // SEND QUIZ ANSWERS TO THE PRINCIPALS OFFICE AND HAVE HIM EXPELLED (Sent it to ChatGPT)
   };
 
+  // Parsing the formData into human/gpt-readable language
+  function parseData(data: FormData) {
+    return `I am interested in the ${data.industry} industry.
+      I would prefer to work ${data.teamWork === "Independent" ? "independently" : "in teams"}.
+      I am ${data.creative === "Yes" ? "creative" : "not creative"}.
+      I prefer a ${data.workPace === "Slower" ? "slow" : "fast" } paced work environment.
+      I am ${data.learnNewSkills === "Yes" ? "comfortable" : "unflexible"} with learning new skills in the workplace.
+      I want to work ${data.remote === "Yes" ? "remotely" : "in-person"}.
+      ${data.educationLevel === "N/A" ? "" : `The highest level of education I have completed is my ${data.educationLevel}`}`
+  }
+
   // Rendering the Fender Bender
   return (
     <div className="page-content">
@@ -98,7 +109,7 @@ function Basic_Quiz() {
             <h3>Question 2</h3>
             <p className="question-text">Do you work best with a team or independently?</p>
             <div className="options-container">
-              {['Independent', 'Team'].map((option) => (
+              {['Independently', 'In teams'].map((option) => (
                 <div className="option" key={option}>
                   <input
                     type="radio"
@@ -226,7 +237,7 @@ function Basic_Quiz() {
           </div>
           
           {allQuestionsAnswered && (
-            <button type="submit" className="submit-button">Submit Quiz</button>
+            <button type="submit" className="submit-button" onClick={() => {console.log(parseData(formData))}}>Submit Quiz</button>
           )}
         </form>
       ) : (

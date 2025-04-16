@@ -3,72 +3,23 @@ import React, {useState} from 'react';
 import { Outlet, Link} from 'react-router-dom';
 import logo from '../logo.svg';
 import { Button, Form } from 'react-bootstrap'
-import OpenAI from 'openai';
+import { callOpenAI_API } from '../openAI-config';
 
 //const API_KEY = localStorage.getItem("MYKEY") ?? "";
-const API_KEY = process.env.REACT_APP_OPENAI_API_KEY ?? "";
 
 function MainLayout() {
   const [visible, setVisible] = useState<boolean>(true);
-  const [message, updateMessage] = useState<string>("i don't knoww");
-  const [response, updateResponse] = useState<string>("");
+  const [message, updateMessage] = useState<string>("How can I make six figures"); // user message
+  const [response, updateResponse] = useState<string>(""); // openai response
 
-  console.log(API_KEY);
-
-  async function getOpenAI_API(key: string): Promise<OpenAI | undefined>{
-    let helpiChat;
-    try {
-      helpiChat = new OpenAI({apiKey: key, dangerouslyAllowBrowser: true});
-      if (!helpiChat) {
-        throw new Error("bruhh")
-      }
-    } catch (error: any) {
-      console.error("invalid api key")
-    }
-    return helpiChat
-  }
-
-  async function callOpenAI_API(message: string): Promise<string> {
-    const helpiChat = await getOpenAI_API(API_KEY);
-    if (!helpiChat) {
-      return "Invalid API Key provided."
-    }
-    const response = await helpiChat.responses.create({
-      
-      model: "gpt-4o",
-      input: [
-        {role: "user", 
-        content: message
-        }, {
-          role: "system",
-          content: "Find the ideal career for the user based on their responses, and provide information on their career."
-        }
-      ],
-      temperature: 0.5,
-      
-    });
-    
-    console.log(message);
-    console.log(response.output_text)
-    updateResponse(response.output_text)
-    return response.output_text;
-    // const response = await helpiChat.responses.create({
-    //   model: "gpt-4o",
-    //   input: [
-    //     {role: "user", 
-    //     content: message
-    //     }, {
-    //       role: "system",
-    //       content: "Find the ideal career for the user based on their responses, and provide information on their career."
-    //     }
-    //   ],
-    //   temperature: 0.5,
-      
-    // });
-    // console.log(message);
-    // console.log(response.output_text)
-    // updateResponse(response.output_text)
-    // return response.output_text;
+  
+  // Get responses from OpenAI using "await callOpenAI_API(message)"
+  // with message being the user input
+  async function getResponse() {
+    const output = await callOpenAI_API(message)
+    console.log(output)
+    // since we're using promises, account for the possibilty of the output being null
+    updateResponse(output ?? "")
   }
 
   return (
@@ -103,7 +54,7 @@ function MainLayout() {
               <Form.Label>say something:</Form.Label>
               <Form.Control type="text" value={message} onChange={(e) => updateMessage(e.target.value)}></Form.Control>
             </Form.Group>
-            <Button onClick={() => {callOpenAI_API(message)}}>Ask</Button>
+            <Button onClick={() => {getResponse()}}>Ask</Button>
           </div>
           <div>
             car-quiz says: {response}
