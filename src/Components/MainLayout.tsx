@@ -1,12 +1,28 @@
-// Abrar: I moved our original App.tsx into its own component. So our layouts would be along these lines
-
 // src/components/MainLayout.tsx
-import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, {useState} from 'react';
+import { Outlet, Link} from 'react-router-dom';
 import logo from '../logo.svg';
+import { Button, Form } from 'react-bootstrap'
+import { callOpenAI_API } from '../openAI-config';
 
 
 function MainLayout() {
+  const [visible, setVisible] = useState<boolean>(true);
+  const [message, updateMessage] = useState<string>("How can I make six figures"); // user message
+  const [response, updateResponse] = useState<string>(""); // openai response
+
+  
+  // Get responses from OpenAI using "await callOpenAI_API(message)"
+  // with message being the user input
+  async function getResponse() {
+    const output = await callOpenAI_API(message)
+    console.log(output)
+
+    // Account for the possibilty of the output being null
+    // Update UseState to store output
+    updateResponse(output ?? "")
+  }
+
   return (
     <div className="App">
       
@@ -31,6 +47,26 @@ function MainLayout() {
       {/* This is where the routed content will appear */}
       <div className="content-area mt-4">
         <Outlet />
+
+        {!visible && <div className="help-chat">
+          helpi chat 
+          <div>
+            <Form.Group controlId="userChat">
+              <Form.Label>say something:</Form.Label>
+              <Form.Control type="text" value={message} onChange={(e) => updateMessage(e.target.value)}></Form.Control>
+            </Form.Group>
+            <Button onClick={() => {getResponse()}}>Ask</Button>
+          </div>
+          <div>
+            car-quiz says: {response}
+          </div>
+        </div>}
+
+        <div>
+          <Button className="chat-button" onClick={() => setVisible(!visible)}>
+            🚗
+          </Button>
+        </div>
       </div>
 
       <header className="App-footer">
