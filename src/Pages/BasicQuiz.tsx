@@ -1,6 +1,6 @@
 // src/Pages/BasicQuiz.tsx
 import React, { useState } from 'react';
-
+import { callOpenAI_API } from '../openAI-config';
 interface FormData {
   industry: string;          // Answer to industry question
   teamWork: string;          // Answer to team work preference
@@ -24,8 +24,11 @@ function Basic_Quiz() {
   });
 
   //useState Hooks for tracking form status
-  const [submitted, setSubmitted] = useState(false); //Submitted Question: T or F State
-  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false); //All Questions Answered: T or F State
+  const [submitted, setSubmitted] = useState<boolean>(false); //Submitted Question: T or F State
+  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false); //All Questions Answered: T or F State
+  
+  //useState Hook to display and update GPT generated quiz results
+  const [results, updateResults] = useState<string>("");
 
   //Handling Events
 
@@ -63,16 +66,28 @@ function Basic_Quiz() {
     // SEND QUIZ ANSWERS TO THE PRINCIPALS OFFICE AND HAVE HIM EXPELLED (Sent it to ChatGPT)
   };
 
-  // Parsing the formData into human/gpt-readable language
   function parseData(data: FormData) {
-    return `I am interested in the ${data.industry} industry.
+    let parsed: string = `I am interested in the ${data.industry} industry.
       I would prefer to work ${data.teamWork === "Independent" ? "independently" : "in teams"}.
       I am ${data.creative === "Yes" ? "creative" : "not creative"}.
       I prefer a ${data.workPace === "Slower" ? "slow" : "fast" } paced work environment.
       I am ${data.learnNewSkills === "Yes" ? "comfortable" : "unflexible"} with learning new skills in the workplace.
       I want to work ${data.remote === "Yes" ? "remotely" : "in-person"}.
       ${data.educationLevel === "N/A" ? "" : `The highest level of education I have completed is my ${data.educationLevel}`}`
+    console.log(parsed);
+    return parsed;
   }
+
+  // Get responses from OpenAI using "await callOpenAI_API(message)"
+  // with message being the user input
+  async function getResponse(message: string) {
+    const output = await callOpenAI_API(message)
+    console.log(output)
+    // s
+    // Account for the possibilty of the output being null
+    updateResults(output ?? "") 
+  }
+
 
   // Rendering the Fender Bender
   return (
@@ -237,13 +252,16 @@ function Basic_Quiz() {
           </div>
           
           {allQuestionsAnswered && (
-            <button type="submit" className="submit-button" onClick={() => {console.log(parseData(formData))}}>Submit Quiz</button>
+            <button type="submit" className="submit-button" onClick={() => {
+              getResponse(parseData(formData))
+            }}>Submit Quiz</button>
           )}
         </form>
       ) : (
         <div className="completion-container">
           <h3>You have completed the Basic Career Quiz</h3>
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
+          <div className="basic-quiz-results">{results}</div>
           <button onClick={() => setSubmitted(false)} className="retake-button">
             Retake Basic Quiz
           </button>

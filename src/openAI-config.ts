@@ -5,14 +5,14 @@ CREATE A ".env" FILE IN YOUR ROOT DIRECTORY AND PUT
 
     REACT_APP_OPENAI_API_KEY=sk-xxxxyourapikeyxxxxxxxxxxxxxxxxx
 
-whatever our api key was in it
+whatever our api key was in it (no quotation marks)
 and then put ".env" somewhere in .gitignore to banish it to local forever
 */ 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY ?? "";
 const client = new OpenAI({apiKey: API_KEY, dangerouslyAllowBrowser: true})
 
 
-// Gets response from 
+// Gets response from openAI
 export async function callOpenAI_API(message: string) {
     const response = await client.chat.completions.create({
     model: "gpt-4o",
@@ -32,6 +32,7 @@ export async function callOpenAI_API(message: string) {
     return reply;
 }
 
+// WIP for when we want to handle errors for invalid user-inputed/localstorage API key 
 async function getOpenAI_API(key: string): Promise<OpenAI | undefined>{
     let client;
     try {
