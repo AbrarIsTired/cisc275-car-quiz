@@ -5,7 +5,6 @@ import logo from '../logo.svg';
 import { Button, Form } from 'react-bootstrap'
 import { callOpenAI_API } from '../openAI-config';
 
-//const API_KEY = localStorage.getItem("MYKEY") ?? "";
 
 function MainLayout() {
   const [visible, setVisible] = useState<boolean>(true);
@@ -18,7 +17,9 @@ function MainLayout() {
   async function getResponse() {
     const output = await callOpenAI_API(message)
     console.log(output)
-    // since we're using promises, account for the possibilty of the output being null
+
+    // Account for the possibilty of the output being null
+    // Update UseState to store output
     updateResponse(output ?? "")
   }
 

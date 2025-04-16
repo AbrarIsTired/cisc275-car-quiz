@@ -83,8 +83,9 @@ function Basic_Quiz() {
   async function getResponse(message: string) {
     const output = await callOpenAI_API(message)
     console.log(output)
-    // s
+
     // Account for the possibilty of the output being null
+    // Update UseState to store output
     updateResults(output ?? "") 
   }
 

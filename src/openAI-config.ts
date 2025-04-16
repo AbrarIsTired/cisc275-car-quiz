@@ -41,6 +41,7 @@ async function getOpenAI_API(key: string): Promise<OpenAI | undefined>{
         throw new Error("other error")
         }
     } catch (error: any) {
+        // 401 error is invalid api key 
         console.error("invalid api key")
     }
     return client
