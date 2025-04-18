@@ -1,7 +1,7 @@
 // src/Pages/BasicQuiz.tsx
 import React, { useState } from 'react';
 import { callOpenAI_API } from '../openAI-config';
-import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
+// import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
 interface FormData {
   industry: string;          // Answer to industry question
   teamWork: string;          // Answer to team work preference
@@ -24,7 +24,8 @@ function Basic_Quiz() {
     educationLevel: ''
   });
 
-  const [data, setData] = useState<string[]>(Array(BasicQuestions.length).fill(""))
+  // WIP
+  //const [data, setData] = useState<string[]>(Array(BasicQuestions.length).fill(""))
 
   //useState Hooks for tracking form status
   const [submitted, setSubmitted] = useState<boolean>(false); //Submitted Question: T or F State
