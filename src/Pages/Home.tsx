@@ -32,7 +32,7 @@ function Home() {
         <br></br>
 
         <div className='quiz-info'>
-          <div style={{width: "75%", display: "inline-block"}}>
+          <div style={{width: "75%", display: "inline-block", padding: "10px"}}>
             <h2>Basic Quiz</h2>
             <p>A quick and simple quiz that uses your responses to give a very general idea of what career path you could take.</p>
           </div>
@@ -40,7 +40,7 @@ function Home() {
         </div>
         <hr></hr>
         <div className='quiz-info'>
-          <div style={{width: "75%", display: "inline-block"}}>
+          <div style={{width: "75%", display: "inline-block", padding: "10px"}}>
             <h2>Detailed Quiz</h2>
             <p>A more in depth quiz that uses more specific responses to better reflect what you value in a career to further narrow down your possible path.</p>  
           </div>

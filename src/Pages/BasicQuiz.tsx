@@ -1,6 +1,7 @@
 // src/Pages/BasicQuiz.tsx
 import React, { useState } from 'react';
 import { callOpenAI_API } from '../openAI-config';
+import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
 interface FormData {
   industry: string;          // Answer to industry question
   teamWork: string;          // Answer to team work preference
@@ -23,38 +24,49 @@ function Basic_Quiz() {
     educationLevel: ''
   });
 
+  const [data, setData] = useState<string[]>(Array(BasicQuestions.length).fill(""))
+
   //useState Hooks for tracking form status
   const [submitted, setSubmitted] = useState<boolean>(false); //Submitted Question: T or F State
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false); //All Questions Answered: T or F State
-  
+  const [questionsAnswered, setQuestionsAnswered] = useState<number>(0); // Number of questions answered for progess bar
   //useState Hook to display and update GPT generated quiz results
   const [results, updateResults] = useState<string>("");
 
   //Handling Events
 
   //On Radio button click
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
     
+    const { name, value } = e.target;
 
     //New form object which is a copy of the old one just with whatever is filled in
     const updatedFormData = {
       ...formData,
       [name]: value
     };
-    
+
+
     //Update state with new data
     setFormData(updatedFormData);
-    
+
     // Check if all questions are answered
+    // checkAllQuestionsAnswered(updatedFormData);
     checkAllQuestionsAnswered(updatedFormData);
   };
+
 
   const checkAllQuestionsAnswered = (data: FormData) => {
     // Check if all fields have a non-empty value
     const allAnswered = Object.values(data).every(value => value !== '');
-    
     setAllQuestionsAnswered(allAnswered);
+
+    // Counts the number of non-empty values in the interface object
+    const answered: number = Object.values(data).reduce(function(total, val) {
+      return total + ((val !== "") ? 1 : 0);}, 0);
+    console.log(answered)
+    setQuestionsAnswered(answered);
   };
 
 
@@ -66,6 +78,7 @@ function Basic_Quiz() {
     // SEND QUIZ ANSWERS TO THE PRINCIPALS OFFICE AND HAVE HIM EXPELLED (Sent it to ChatGPT)
   };
 
+  // Parsing the results of the quiz to human (GPT) readable language
   function parseData(data: FormData) {
     let parsed: string = `I am interested in the ${data.industry} industry.
       I would prefer to work ${data.teamWork === "Independent" ? "independently" : "in teams"}.
@@ -92,12 +105,12 @@ function Basic_Quiz() {
 
   // Rendering the Fender Bender
   return (
-    <div className="page-content">
+    <div className="quiz-page-content">
       <h2>Basic Quiz</h2>
       <p>Answer these 7 questions to help determine your ideal career path</p>
-
       {!submitted ? (
-        <form onSubmit={handleSubmit} className="quiz-form">
+        <form onSubmit={handleSubmit} className="quiz-form">      
+          <progress id="basic-progress" value={questionsAnswered} max="7"></progress>
           {/* Question 1: Industry */}
           <div className="question-container">
             <h3>Question 1</h3>
@@ -263,7 +276,17 @@ function Basic_Quiz() {
           <h3>You have completed the Basic Career Quiz</h3>
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
           <div className="basic-quiz-results">{results}</div>
-          <button onClick={() => setSubmitted(false)} className="retake-button">
+          <button onClick={() => {setSubmitted(false); setFormData({
+            industry: '',
+            teamWork: '',
+            creative: '',
+            workPace: '',
+            learnNewSkills: '',
+            remote: '',
+            educationLevel: ''});
+            setQuestionsAnswered(0)
+          }} 
+            className="retake-button">
             Retake Basic Quiz
           </button>
         </div>
