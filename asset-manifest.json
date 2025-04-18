@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/cisc275-car-quiz/static/css/main.68339842.css",
-    "main.js": "/cisc275-car-quiz/static/js/main.9dcf320d.js",
+    "main.css": "/cisc275-car-quiz/static/css/main.c6f78432.css",
+    "main.js": "/cisc275-car-quiz/static/js/main.b66a71d0.js",
     "static/js/453.bad6c33a.chunk.js": "/cisc275-car-quiz/static/js/453.bad6c33a.chunk.js",
     "static/media/logo.svg": "/cisc275-car-quiz/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/cisc275-car-quiz/index.html",
-    "main.68339842.css.map": "/cisc275-car-quiz/static/css/main.68339842.css.map",
-    "main.9dcf320d.js.map": "/cisc275-car-quiz/static/js/main.9dcf320d.js.map",
+    "main.c6f78432.css.map": "/cisc275-car-quiz/static/css/main.c6f78432.css.map",
+    "main.b66a71d0.js.map": "/cisc275-car-quiz/static/js/main.b66a71d0.js.map",
     "453.bad6c33a.chunk.js.map": "/cisc275-car-quiz/static/js/453.bad6c33a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.68339842.css",
-    "static/js/main.9dcf320d.js"
+    "static/css/main.c6f78432.css",
+    "static/js/main.b66a71d0.js"
   ]
 }
