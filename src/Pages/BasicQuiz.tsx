@@ -1,6 +1,7 @@
 // src/Pages/BasicQuiz.tsx
 import React, { useState } from 'react';
 import { callOpenAI_API } from '../openAI-config';
+import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
 interface FormData {
   industry: string;          // Answer to industry question
   teamWork: string;          // Answer to team work preference
@@ -23,6 +24,8 @@ function Basic_Quiz() {
     educationLevel: ''
   });
 
+  const [data, setData] = useState<string[]>(Array(BasicQuestions.length).fill(""))
+
   //useState Hooks for tracking form status
   const [submitted, setSubmitted] = useState<boolean>(false); //Submitted Question: T or F State
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false); //All Questions Answered: T or F State
@@ -33,26 +36,46 @@ function Basic_Quiz() {
   //Handling Events
 
   //On Radio button click
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
     
+    const { name, value } = e.target;
 
     //New form object which is a copy of the old one just with whatever is filled in
     const updatedFormData = {
       ...formData,
       [name]: value
     };
-    
+    const index: number = +(e.currentTarget.id).split("-")[0];
+    data[index] = e.target.value;
+    // const updatedData = data.map((value: string, i: number) => {
+    //   if (i === index) {
+    //     return e.target.value;
+    //   } else {
+    //     return value;
+    //   }
+    // })
+    // setData(["bruh"]);
+    console.log(data);
+    console.log(formData)
+    console.log(e.currentTarget.id);
+    console.log(e.target.value);
+
+
     //Update state with new data
     setFormData(updatedFormData);
     
     // Check if all questions are answered
-    checkAllQuestionsAnswered(updatedFormData);
+    // checkAllQuestionsAnswered(updatedFormData);
+    checkAllQuestionsAnswered();
   };
 
-  const checkAllQuestionsAnswered = (data: FormData) => {
+
+  const checkAllQuestionsAnswered = () => {
+    //data: FormData
     // Check if all fields have a non-empty value
-    const allAnswered = Object.values(data).every(value => value !== '');
+    //const allAnswered = Object.values(data).every(value => value !== '');
+    const allAnswered = data.every(value => value !== '');
     
     setAllQuestionsAnswered(allAnswered);
   };
@@ -66,6 +89,7 @@ function Basic_Quiz() {
     // SEND QUIZ ANSWERS TO THE PRINCIPALS OFFICE AND HAVE HIM EXPELLED (Sent it to ChatGPT)
   };
 
+  // Parsing the results of the quiz to human (GPT) readable language
   function parseData(data: FormData) {
     let parsed: string = `I am interested in the ${data.industry} industry.
       I would prefer to work ${data.teamWork === "Independent" ? "independently" : "in teams"}.
@@ -92,165 +116,34 @@ function Basic_Quiz() {
 
   // Rendering the Fender Bender
   return (
-    <div className="page-content">
+    <div className="quiz-page-content">
       <h2>Basic Quiz</h2>
       <p>Answer these 7 questions to help determine your ideal career path</p>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
-          {/* Question 1: Industry */}
-          <div className="question-container">
-            <h3>Question 1</h3>
-            <p className="question-text">What industry would you be most interested in working in?</p>
-            <div className="options-container">
-              {['STEM', 'Medicine', 'Finance/Economics', 'Business Administration/Management', 'Creative arts and humanities'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`industry-${option}`}
-                    name="industry"
-                    value={option}
-                    checked={formData.industry === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`industry-${option}`}>{option}</label>
-                </div>
-              ))}
+          {BasicQuestions.map((question: MultipleChoiceQuestion, index: number) => (
+            <div className="question-container">
+              <h3>Question {index + 1}</h3>
+              <p className="question-text">{question.content}</p>
+              <div className="options-container">
+                {question.options.map((option: string) => (
+                  <div className="option" key={option}>
+                    <input
+                      type="radio"
+                      id={`${index}-${option}`}
+                      name={question.label}
+                      value={option}
+                      checked={data[index] === option}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <label htmlFor={`${index}-${option}`}>{option}</label>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-
-          {/* Question 2: Team Work */}
-          <div className="question-container">
-            <h3>Question 2</h3>
-            <p className="question-text">Do you work best with a team or independently?</p>
-            <div className="options-container">
-              {['Independently', 'In teams'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`teamWork-${option}`}
-                    name="teamWork"
-                    value={option}
-                    checked={formData.teamWork === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`teamWork-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 3: Creative */}
-          <div className="question-container">
-            <h3>Question 3</h3>
-            <p className="question-text">Are you a creative person?</p>
-            <div className="options-container">
-              {['Yes', 'No'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`creative-${option}`}
-                    name="creative"
-                    value={option}
-                    checked={formData.creative === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`creative-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 4: Work Pace */}
-          <div className="question-container">
-            <h3>Question 4</h3>
-            <p className="question-text">Do you prefer a slower or faster paced work environment?</p>
-            <div className="options-container">
-              {['Slower', 'Faster'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`workPace-${option}`}
-                    name="workPace"
-                    value={option}
-                    checked={formData.workPace === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`workPace-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 5: Learn New Skills */}
-          <div className="question-container">
-            <h3>Question 5</h3>
-            <p className="question-text">Are you comfortable with learning new skills in everchanging fields?</p>
-            <div className="options-container">
-              {['Yes', 'No'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`learnNewSkills-${option}`}
-                    name="learnNewSkills"
-                    value={option}
-                    checked={formData.learnNewSkills === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`learnNewSkills-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 6: Remote Work */}
-          <div className="question-container">
-            <h3>Question 6</h3>
-            <p className="question-text">Do you want to work remotely?</p>
-            <div className="options-container">
-              {['Yes', 'No'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`remote-${option}`}
-                    name="remote"
-                    value={option}
-                    checked={formData.remote === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`remote-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 7: Education Level */}
-          <div className="question-container">
-            <h3>Question 7</h3>
-            <p className="question-text">What is the highest level of education you have completed?</p>
-            <div className="options-container">
-              {['PHD', 'Masters', 'Bachelors', 'Associates', 'High School/GED Equivalent', 'N/A'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`educationLevel-${option}`}
-                    name="educationLevel"
-                    value={option}
-                    checked={formData.educationLevel === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`educationLevel-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
           
           {allQuestionsAnswered && (
             <button type="submit" className="submit-button" onClick={() => {
@@ -263,7 +156,9 @@ function Basic_Quiz() {
           <h3>You have completed the Basic Career Quiz</h3>
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
           <div className="basic-quiz-results">{results}</div>
-          <button onClick={() => setSubmitted(false)} className="retake-button">
+          <button onClick={() => {setSubmitted(false)
+            setData(Array(BasicQuestions.length).fill(""))
+          }} className="retake-button">
             Retake Basic Quiz
           </button>
         </div>

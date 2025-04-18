@@ -56,7 +56,7 @@ function DetailedQuiz() {
     };
 
   return (
-    <div className="page-content">
+    <div className="quiz-page-content">
       <h2>Detailed Quiz</h2>
       <p>Answer these 9 questions to help determine your ideal career path</p>
 
