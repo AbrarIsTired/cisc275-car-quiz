@@ -29,6 +29,7 @@ function DetailedQuiz() {
   });
     const [submitted, setSubmitted] = useState(false);
     const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
+    const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,6 +48,12 @@ function DetailedQuiz() {
     const allAnswered = Object.values(data).every(value => value !== '');
     
     setAllQuestionsAnswered(allAnswered);
+
+    // Counts the number of non-empty values in the interface object
+    const answered: number = Object.values(data).reduce(function(total, val) {
+      return total + ((val !== "") ? 1 : 0);}, 0);
+    console.log(answered)
+    setQuestionsAnswered(answered);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -61,7 +68,8 @@ function DetailedQuiz() {
       <p>Answer these 9 questions to help determine your ideal career path</p>
 
       {!submitted ? (
-        <form onSubmit={handleSubmit} className="quiz-form">
+        <form onSubmit={handleSubmit} className="quiz-form">        
+        <progress id="basic-progress" value={questionsAnswered} max="9"></progress>
         {/* Question 1: Industry */}
         <div className="question-container">
           <h3>Question 1</h3>
@@ -290,7 +298,19 @@ function DetailedQuiz() {
         <div className="completion-container">
           <h3>You have completed the Detailed Career Quiz</h3>
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
-          <button onClick={() => setSubmitted(false)} className="retake-button">
+          <button onClick={() => {setSubmitted(false); setFormData({
+            industry: '',
+            salary: '',
+            education: '',
+            workLife: '',
+            commute: '',
+            creativity: '',
+            teamwork: '',
+            teamsize: '',
+            skills: '',
+            workPace: '',
+          });
+            setQuestionsAnswered(0)}} className="retake-button">
             Retake Detailed Quiz
           </button>
         </div>

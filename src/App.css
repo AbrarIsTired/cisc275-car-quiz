@@ -152,3 +152,19 @@
 .question-container {
   padding: 10px
 }
+
+progress {
+  border-radius: 7px; 
+  width: 80%;
+  height: 22px;
+  box-shadow: 3px 2px 2px rgba(130, 130, 130, 0.2);
+}
+
+progress::-webkit-progress-bar {
+  background-color: rgb(225, 224, 219);
+  border-radius: 7px;
+}
+progress::-webkit-progress-value {
+  background-color: rgb(78, 140, 190);
+  border-radius: 7px;
+}
