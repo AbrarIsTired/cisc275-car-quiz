@@ -12,6 +12,7 @@ interface FormData{
   teamsize: string;
   skills: string;
   workPace: string;
+  hobbies: string;
 }
 
 function DetailedQuiz() {
@@ -26,6 +27,7 @@ function DetailedQuiz() {
     teamsize: '',
     skills: '',
     workPace: '',
+    hobbies: ''
   });
     const [submitted, setSubmitted] = useState(false);
     const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
@@ -73,20 +75,19 @@ function DetailedQuiz() {
         {/* Question 1: Industry */}
         <div className="question-container">
           <h3>Question 1</h3>
-          <p className="question-text">What industry would you be most interested in working in?</p>
-          <div className="options-container">
-            {['STEM', 'Medicine', 'Finance/Economics', 'Business Administration/Management', 'Creative arts and humanities'].map((option) => (
-              <div className="option" key={option}>
+          <p className="question-text">Briefly describe what industry you would like to work in.</p>
+          <div className="response-container">
+            {[''].map((response) => (
+              <div className="response" key={response}>
                 <input
-                  type="radio"
-                  id={`industry-${option}`}
+                  type="text"
+                  id={`industry-${response}`}
                   name="industry"
-                  value={option}
-                  checked={formData.industry === option}
+                  checked={formData.industry === response}
                   onChange={handleInputChange}
                   required
                 />
-                <label htmlFor={`industry-${option}`}>{option}</label>
+                <label htmlFor={`industry-${response}`}>{response}</label>
               </div>
             ))}
           </div>
@@ -289,6 +290,27 @@ function DetailedQuiz() {
               ))}
             </div>
           </div>
+          
+          {/* Question 10: Hobbies */}
+          <div className="question-container">
+          <h3>Question 10</h3>
+          <p className="question-text">List some of your hobbies and interests</p>
+          <div className="response-container">
+            {[''].map((response) => (
+              <div className="response" key={response}>
+                <input
+                  type="text"
+                  id={`hobbies-${response}`}
+                  name="hobbies"
+                  checked={formData.hobbies === response}
+                  onChange={handleInputChange}
+                  required
+                />
+                <label htmlFor={`hobbies-${response}`}>{response}</label>
+              </div>
+            ))}
+          </div>
+        </div>
 
           {allQuestionsAnswered && (
             <button type="submit" className="submit-button">Submit Quiz</button>
@@ -309,6 +331,7 @@ function DetailedQuiz() {
             teamsize: '',
             skills: '',
             workPace: '',
+            hobbies:''
           });
             setQuestionsAnswered(0)}} className="retake-button">
             Retake Detailed Quiz
