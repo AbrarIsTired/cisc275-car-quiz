@@ -86,7 +86,7 @@ function DetailedQuiz() {
     const output = await callOpenAI_API(message)
     console.log(output)
 
-    // Account for the possibilty of the output being null
+    // Possibilty of the output being blank or nothing
     // Update UseState to store output
     updateResults(output ?? "") 
   }
@@ -102,7 +102,7 @@ function DetailedQuiz() {
   return (
     <div className="quiz-page-content">
       <h2>Detailed Quiz</h2>
-      <p>Answer these 9 questions to help determine your ideal career path</p>
+      <p>Answer these 10 questions to help determine your ideal career path</p>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">        
@@ -355,6 +355,7 @@ function DetailedQuiz() {
         <div className="completion-container">
           <h3>You have completed the Detailed Career Quiz</h3>
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
+          <div className="detailed-quiz-results">{results}</div>
           <button onClick={() => {setSubmitted(false); setFormData({
             industry: '',
             salary: '',
