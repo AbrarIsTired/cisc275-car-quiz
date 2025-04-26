@@ -62,11 +62,6 @@ function DetailedQuiz() {
     setQuestionsAnswered(answered);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('Form submitted:', formData);
-      setSubmitted(true);
-    };
 
   // Parsing the results of the quiz to human (GPT) readable language
   function parseData(data: FormData) {
@@ -96,6 +91,13 @@ function DetailedQuiz() {
     updateResults(output ?? "") 
   }
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    setSubmitted(true);
+    // Call OpenAI API with parsed form data
+    getResponse(parseData(formData));
+  };
 
   return (
     <div className="quiz-page-content">
