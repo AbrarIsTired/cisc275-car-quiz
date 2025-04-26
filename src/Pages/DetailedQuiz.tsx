@@ -85,8 +85,16 @@ function DetailedQuiz() {
     return parsed;
   }
 
+  // Get responses from OpenAI using "await callOpenAI_API(message)"
+  // with message being the user input
+  async function getResponse(message: string) {
+    const output = await callOpenAI_API(message)
+    console.log(output)
 
-
+    // Account for the possibilty of the output being null
+    // Update UseState to store output
+    updateResults(output ?? "") 
+  }
 
 
   return (
