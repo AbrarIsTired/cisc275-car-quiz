@@ -1,5 +1,6 @@
 // src/Pages/DetailedQuiz.tsx
 import React, { useState } from 'react';
+import { callOpenAI_API } from '../openAI-config';
 
 interface FormData{
   industry: string;
@@ -33,6 +34,9 @@ function DetailedQuiz() {
     const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
     const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
 
+  //useState Hook to display and update GPT generated quiz results
+  const [results, updateResults] = useState<string>("");
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     
@@ -63,6 +67,27 @@ function DetailedQuiz() {
       console.log('Form submitted:', formData);
       setSubmitted(true);
     };
+
+  // Parsing the results of the quiz to human (GPT) readable language
+  function parseData(data: FormData) {
+    let parsed: string = `I am interested in working in ${data.industry}.
+      I would be happy with a minimum salary range of ${data.salary}.
+      I intend to complete a ${data.education} level of education.
+      Work-life balance is ${data.workLife.toLowerCase()} to me.
+      I prefer to work from ${data.commute === 'Home' ? 'home' : 'an office and commute'}.
+      Creative expression in my work is ${data.creativity.toLowerCase()} to me.
+      I prefer to work ${data.teamwork === 'Independently' ? 'independently' : 'in a team'}.
+      ${data.teamwork === 'Team' ? `I work best in a team of ${data.teamsize} people.` : ''}
+      I am ${data.skills === 'Yes' ? 'comfortable' : 'not comfortable'} with learning new skills as my field evolves.
+      I prefer a ${data.workPace.toLowerCase()}-paced work environment.
+      My hobbies and interests include: ${data.hobbies}.`;
+    console.log(parsed);
+    return parsed;
+  }
+
+
+
+
 
   return (
     <div className="quiz-page-content">
