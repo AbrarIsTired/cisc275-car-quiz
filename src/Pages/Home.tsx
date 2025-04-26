@@ -15,7 +15,8 @@ function Home() {
   const [key, setKey] = useState<string>(keyData);
   
   function handleSubmit() {
-    localStorage.setItem(saveKeyData, JSON.stringify(key));
+    const stripped_key = key.trim()
+    localStorage.setItem(saveKeyData, JSON.stringify(stripped_key));
     window.location.reload();
   }
 

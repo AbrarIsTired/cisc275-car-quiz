@@ -33,9 +33,8 @@ function DetailedQuiz() {
     const [submitted, setSubmitted] = useState(false);
     const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
     const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
-
-  //useState Hook to display and update GPT generated quiz results
-  const [results, updateResults] = useState<string>("");
+    // Add state for OpenAI results
+    const [results, updateResults] = useState<string>("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,7 +61,6 @@ function DetailedQuiz() {
     setQuestionsAnswered(answered);
   };
 
-
   // Parsing the results of the quiz to human (GPT) readable language
   function parseData(data: FormData) {
     let parsed: string = `I am interested in working in ${data.industry}.
@@ -81,23 +79,22 @@ function DetailedQuiz() {
   }
 
   // Get responses from OpenAI using "await callOpenAI_API(message)"
-  // with message being the user input
   async function getResponse(message: string) {
-    const output = await callOpenAI_API(message)
-    console.log(output)
+    const output = await callOpenAI_API(message);
+    console.log(output);
 
-    // Possibilty of the output being blank or nothing
-    // Update UseState to store output
-    updateResults(output ?? "") 
+    // Account for the possibility of the output being null
+    // Update useState to store output
+    updateResults(output ?? "");
   }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    // Call OpenAI API with parsed form data
-    getResponse(parseData(formData));
-  };
+      e.preventDefault();
+      console.log('Form submitted:', formData);
+      setSubmitted(true);
+      // Call OpenAI API with parsed form data
+      getResponse(parseData(formData));
+    };
 
   return (
     <div className="quiz-page-content">
@@ -354,7 +351,7 @@ function DetailedQuiz() {
       ) : (
         <div className="completion-container">
           <h3>You have completed the Detailed Career Quiz</h3>
-          <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
+          <p>Your responses have been recorded.</p>
           <div className="detailed-quiz-results">{results}</div>
           <button onClick={() => {setSubmitted(false); setFormData({
             industry: '',
