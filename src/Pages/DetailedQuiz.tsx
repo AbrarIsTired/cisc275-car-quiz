@@ -1,5 +1,6 @@
 // src/Pages/DetailedQuiz.tsx
 import React, { useState } from 'react';
+import { callOpenAI_API } from '../openAI-config';
 
 interface FormData{
   industry: string;
@@ -12,6 +13,7 @@ interface FormData{
   teamsize: string;
   skills: string;
   workPace: string;
+  hobbies: string;
 }
 
 function DetailedQuiz() {
@@ -26,10 +28,13 @@ function DetailedQuiz() {
     teamsize: '',
     skills: '',
     workPace: '',
+    hobbies: ''
   });
     const [submitted, setSubmitted] = useState(false);
     const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
     const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
+    // Add state for OpenAI results
+    const [results, updateResults] = useState<string>("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,16 +61,45 @@ function DetailedQuiz() {
     setQuestionsAnswered(answered);
   };
 
+  // Parsing the results of the quiz to human (GPT) readable language
+  function parseData(data: FormData) {
+    let parsed: string = `I am interested in working in ${data.industry}.
+      I would be happy with a minimum salary range of ${data.salary}.
+      I intend to complete a ${data.education} level of education.
+      Work-life balance is ${data.workLife.toLowerCase()} to me.
+      I prefer to work from ${data.commute === 'Home' ? 'home' : 'an office and commute'}.
+      Creative expression in my work is ${data.creativity.toLowerCase()} to me.
+      I prefer to work ${data.teamwork === 'Independently' ? 'independently' : 'in a team'}.
+      ${data.teamwork === 'Team' ? `I work best in a team of ${data.teamsize} people.` : ''}
+      I am ${data.skills === 'Yes' ? 'comfortable' : 'not comfortable'} with learning new skills as my field evolves.
+      I prefer a ${data.workPace.toLowerCase()}-paced work environment.
+      My hobbies and interests include: ${data.hobbies}.`;
+    console.log(parsed);
+    return parsed;
+  }
+
+  // Get responses from OpenAI using "await callOpenAI_API(message)"
+  async function getResponse(message: string) {
+    const output = await callOpenAI_API(message);
+    console.log(output);
+
+    // Account for the possibility of the output being null
+    // Update useState to store output
+    updateResults(output ?? "");
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       console.log('Form submitted:', formData);
       setSubmitted(true);
+      // Call OpenAI API with parsed form data
+      getResponse(parseData(formData));
     };
 
   return (
     <div className="quiz-page-content">
       <h2>Detailed Quiz</h2>
-      <p>Answer these 9 questions to help determine your ideal career path</p>
+      <p>Answer these 10 questions to help determine your ideal career path</p>
 
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">        
@@ -73,20 +107,19 @@ function DetailedQuiz() {
         {/* Question 1: Industry */}
         <div className="question-container">
           <h3>Question 1</h3>
-          <p className="question-text">What industry would you be most interested in working in?</p>
-          <div className="options-container">
-            {['STEM', 'Medicine', 'Finance/Economics', 'Business Administration/Management', 'Creative arts and humanities'].map((option) => (
-              <div className="option" key={option}>
+          <p className="question-text">Briefly describe what industry you would like to work in.</p>
+          <div className="response-container">
+            {[''].map((response) => (
+              <div className="response" key={response}>
                 <input
-                  type="radio"
-                  id={`industry-${option}`}
+                  type="text"
+                  id={`industry-${response}`}
                   name="industry"
-                  value={option}
-                  checked={formData.industry === option}
+                  checked={formData.industry === response}
                   onChange={handleInputChange}
                   required
                 />
-                <label htmlFor={`industry-${option}`}>{option}</label>
+                <label htmlFor={`industry-${response}`}>{response}</label>
               </div>
             ))}
           </div>
@@ -289,6 +322,27 @@ function DetailedQuiz() {
               ))}
             </div>
           </div>
+          
+          {/* Question 10: Hobbies */}
+          <div className="question-container">
+          <h3>Question 10</h3>
+          <p className="question-text">List some of your hobbies and interests</p>
+          <div className="response-container">
+            {[''].map((response) => (
+              <div className="response" key={response}>
+                <input
+                  type="text"
+                  id={`hobbies-${response}`}
+                  name="hobbies"
+                  checked={formData.hobbies === response}
+                  onChange={handleInputChange}
+                  required
+                />
+                <label htmlFor={`hobbies-${response}`}>{response}</label>
+              </div>
+            ))}
+          </div>
+        </div>
 
           {allQuestionsAnswered && (
             <button type="submit" className="submit-button">Submit Quiz</button>
@@ -297,7 +351,8 @@ function DetailedQuiz() {
       ) : (
         <div className="completion-container">
           <h3>You have completed the Detailed Career Quiz</h3>
-          <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
+          <p>Your responses have been recorded.</p>
+          <div className="detailed-quiz-results">{results}</div>
           <button onClick={() => {setSubmitted(false); setFormData({
             industry: '',
             salary: '',
@@ -309,6 +364,7 @@ function DetailedQuiz() {
             teamsize: '',
             skills: '',
             workPace: '',
+            hobbies:''
           });
             setQuestionsAnswered(0)}} className="retake-button">
             Retake Detailed Quiz

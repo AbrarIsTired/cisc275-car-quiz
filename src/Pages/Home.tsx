@@ -15,6 +15,8 @@ function Home() {
   const [key, setKey] = useState<string>(keyData);
   
   function handleSubmit() {
+    // Cleaning up the API Key. Leaving commented for now, need to test
+    // const stripped_key = key.trim()
     localStorage.setItem(saveKeyData, JSON.stringify(key));
     window.location.reload();
   }
