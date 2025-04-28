@@ -41,6 +41,10 @@ function MainLayout() {
           <li>
             <Link to="/detailed-quiz">Detailed Quiz</Link>
           </li>
+          <label className="switch">
+            <input type="checkbox"></input>
+            <span className="slider round"></span>
+          </label>
         </ul>
       </nav>
       
