@@ -37,7 +37,7 @@ All files            |       0 |        0 |       0 |       0 |
   openAI-config.ts   |       0 |        0 |       0 |       0 | 11-32             
   reportWebVitals.ts |       0 |        0 |       0 |       0 | 3-10              
  src/Components      |       0 |        0 |       0 |       0 |                   
-  MainLayout.tsx     |       0 |        0 |       0 |       0 | 10-66             
+  MainLayout.tsx     |       0 |        0 |       0 |       0 | 10-75             
  src/Pages           |       0 |        0 |       0 |       0 |                   
   About.tsx          |       0 |      100 |       0 |       0 | 5                 
   BasicQuiz.tsx      |       0 |        0 |       0 |       0 | 17-288            
@@ -48,7 +48,7 @@ All files            |       0 |        0 |       0 |       0 |
 Test Suites: 1 failed, 1 total
 Tests:       0 total
 Snapshots:   0 total
-Time:        3.104 s
+Time:        3.302 s
 Ran all test suites.
 [0;33mOne of your dependencies, babel-preset-react-app, is importing the
 "@babel/plugin-proposal-private-property-in-object" package without
