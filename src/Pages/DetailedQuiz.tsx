@@ -345,7 +345,7 @@ function DetailedQuiz() {
         </div>
 
           {allQuestionsAnswered && (
-            <button type="submit" className="submit-button">Submit Quiz</button>
+            <button type="submit" className="submit-quiz-button">Submit Quiz</button>
           )}
         </form>
       ) : (
@@ -366,7 +366,7 @@ function DetailedQuiz() {
             workPace: '',
             hobbies:''
           });
-            setQuestionsAnswered(0)}} className="retake-button">
+            setQuestionsAnswered(0)}} className="submit-quiz-button">
             Retake Detailed Quiz
           </button>
         </div>

@@ -267,7 +267,7 @@ function Basic_Quiz() {
           </div>
           
           {allQuestionsAnswered && (
-            <button type="submit" className="submit-button" onClick={() => {
+            <button type="submit" className="submit-quiz-button" onClick={() => {
               getResponse(parseData(formData))
             }}>Submit Quiz</button>
           )}
@@ -287,7 +287,7 @@ function Basic_Quiz() {
             educationLevel: ''});
             setQuestionsAnswered(0)
           }} 
-            className="retake-button">
+            className="submit-quiz-button">
             Retake Basic Quiz
           </button>
         </div>

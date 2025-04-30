@@ -92,8 +92,10 @@ nav li {
 /* OTHER */
 .page-content {
   text-align: left;
+  flex-grow: 1;
 }
 
+/* BUTTONS */
 .Submit-Button {
   background-color: var(--blue);
   border: none;
@@ -103,6 +105,29 @@ nav li {
   background-color: var(--lighter-blue);
 }
 
+.submit-quiz-button {
+  background-color: var(--orange);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  height: 40%;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 2px solid var(--orange);
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  display: inline;
+}
+
+.submit-quiz-button:hover {
+  background-color: var(--lighter-orange);
+  color: var(--text-light);
+  border: 2px solid var(--lighter-orange);
+
+}
 
 @keyframes App-logo-spin {
   from {
@@ -125,6 +150,7 @@ nav li {
   padding: 20px;
   margin-top: 20px;
   border-radius: 10px;
+  border: none;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
   display: inline;
 }
@@ -202,6 +228,8 @@ input[type=radio] {
 label:hover, label:active {
   background: var(--option-hover);
   transition: .15s;
+  
+  border-radius: .5rem;
 }
 
 input[type=radio]:checked:hover+label {
