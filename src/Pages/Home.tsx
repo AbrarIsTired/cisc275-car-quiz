@@ -52,10 +52,10 @@ function Home() {
 
       <div className="api-container" >
         <Form className="mt-4">
-          <Form.Label>Enter API Key</Form.Label>
+          Enter API Key
           <Form.Control type="password" placeholder="Insert API Key Here" onChange={changeKey}></Form.Control>
           <Button className="Submit-Button" onClick={handleSubmit} style={{marginTop: "12px", width: "100%"}}>Submit</Button>
-          <p style={{color: "grey", fontSize: "14px", textAlign: "left", margin: "12px 0px 20px 0px"}}>{!localStorage.getItem("MYKEY") ? "" : "• Key saved from previous session"}</p>
+          <p style={{color: "var(--text-dark)", fontSize: "14px", textAlign: "left", margin: "12px 0px 20px 0px"}}>{!localStorage.getItem("MYKEY") ? "" : "• Key saved from previous session"}</p>
         </Form>
         </div>
     </div>

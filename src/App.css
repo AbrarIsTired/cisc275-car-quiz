@@ -10,7 +10,7 @@
 }
 
 .App-footer {
-  background-color: #3c4e73;
+  background-color: var(--blue);
   padding: 10px;
   flex-direction: column;
   align-items: center;
@@ -19,14 +19,14 @@
 }
 
 .api-container {
-  background-color: white;
+  background-color: var(--api-form-bg);
   width: 29%;
   height: 80%;
   max-width: 800px;
   margin: 0 auto;
   padding: 40px 25px;
   border-radius: 30px;
-  border-color: #e4e9ed;
+  border-color: var(--form-border);
   border-style: solid;
   font-size: 20px;
   font-family:'Trebuchet MS';
@@ -36,14 +36,14 @@
 
 
 .content-area {
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  background-color: var(--bg-color);
   padding: 150px;
-  border: 1px solid #ddd;
+  margin: 0px;
+  border: 1px solid var(--solid);
 }
 
 .main-nav {
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .main-nav ul {
@@ -60,7 +60,7 @@
 
 .main-nav a {
   text-decoration: none;
-  color: #53443e;
+  color: var(--nav-text);
   font-weight: bold;
   font-size: 18px;
   padding: 5px 10px;
@@ -68,24 +68,65 @@
 }
 
 .main-nav a:hover {
-  background-color: #fff7e9;
+  background-color: var(--nav-hover);
+  color: var(--nav-text-hover)
 }
 
+nav {
+  background-color: var(--solid);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+/* OTHER */
 .page-content {
   text-align: left;
+  flex-grow: 1;
 }
 
+/* BUTTONS */
 .Submit-Button {
-  background-color: #3c4e73;
+  background-color: var(--blue);
   border: none;
 }
 
 .Submit-Button:hover {
-  background-color: #465f8f;
+  background-color: var(--lighter-blue);
 }
 
-.mt-4 {
-  margin-top: 1.5rem;
+.submit-quiz-button {
+  background-color: var(--orange);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  height: 40%;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 2px solid var(--orange);
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  display: inline;
+}
+
+.submit-quiz-button:hover {
+  background-color: var(--lighter-orange);
+  color: var(--text-light);
+  border: 2px solid var(--lighter-orange);
+
 }
 
 @keyframes App-logo-spin {
@@ -98,8 +139,8 @@
 }
 
 .link-button {
-  background-color: #ca7718;
-  color: white;
+  background-color: var(--orange);
+  color: var(--text-light);
   font-weight: bold;
   font-size: larger;
   text-align: center;
@@ -109,13 +150,14 @@
   padding: 20px;
   margin-top: 20px;
   border-radius: 10px;
+  border: none;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
   display: inline;
 }
 
 .link-button:hover{
-  background-color: #d68527;
-  color: white;
+  background-color: var(--lighter-orange);
+  color: var(--text-light);
 }
 
 .quiz-info {
@@ -130,7 +172,7 @@
   border: solid;
   border-color: black;
   position: fixed;
-  background: white;
+  background: var(--solid);
   bottom: 110px;
   right: 10px;
   padding: 10px;
@@ -149,6 +191,8 @@
 }
 
 
+/* QUIZ QUESTION UI */
+
 .question-container {
   padding: 30px 300px ;
 }
@@ -159,13 +203,13 @@
   text-align: center;
   border-radius: .5rem;
   border: solid;
-  border-color: rgb(224, 222, 222);
-  background: rgb(236, 234, 234);
+  border-color: var(--option-outline);
+  background: var(--option-bg);
   margin: 5px;
 }
 
 .option:has(input[type=radio]:checked) {
-  background: rgb(188, 211, 171);
+  background: var(--option-selected);
   transition: color .15s ease-in-out;
   background-color: .15s ease-in-out;
   border-color: .15s ease-in-out; 
@@ -182,12 +226,14 @@ input[type=radio] {
 }
 
 label:hover, label:active {
-  background:rgb(224, 222, 222);
+  background: var(--option-hover);
   transition: .15s;
+  
+  border-radius: .5rem;
 }
 
 input[type=radio]:checked:hover+label {
-  background: rgb(188, 211, 171);
+  background: var(--option-selected);
   transition: 0.3s
 }
 
@@ -199,6 +245,7 @@ input[type=radio]:checked:hover+label {
   text-align: center;
 }
 
+/* PROGESS BAR */
 progress {
   position: fixed;
   border-radius: 7px; 
@@ -218,9 +265,74 @@ progress::-webkit-progress-value {
   border-radius: 7px;
 }
 
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
+
+/* DARK MODE SLIDER */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+
 }
+
+.switch:hover {
+  background: none;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #688aa8;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #688aa8;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+

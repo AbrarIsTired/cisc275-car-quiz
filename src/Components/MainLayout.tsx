@@ -23,6 +23,11 @@ function MainLayout() {
     updateResponse(output ?? "")
   }
 
+  function toggleLightDark() {
+    var element = document.body;
+    element.classList.toggle("dark-mode")
+  }
+
   return (
     <div className="App">
       
@@ -41,6 +46,10 @@ function MainLayout() {
           <li>
             <Link to="/detailed-quiz">Detailed Quiz</Link>
           </li>
+          <label className="switch">
+            <input type="checkbox" id="light-dark-checkbox" onClick={() => toggleLightDark()}></input>
+            <span className="slider round"></span>
+          </label>
         </ul>
       </nav>
       
