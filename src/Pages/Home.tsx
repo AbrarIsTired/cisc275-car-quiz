@@ -30,7 +30,7 @@ function Home() {
       <div style={{width: "65%", padding: "0px 60px 0px 20px", display: "inline-block"}}>
 
         <h1>Welcome to Career Helpy</h1>
-        <p>Welcome text</p>
+        <p>Choose a quiz to recieve your personal career assessment.</p>
         <br></br>
 
         <div className='quiz-info'>
