@@ -119,6 +119,21 @@ function Basic_Quiz() {
     }
   }
 
+ function resetQuiz() {
+    setSubmitted(false);
+    setFormData({
+      industry: '',
+      teamWork: '',
+      creative: '',
+      workPace: '',
+      learnNewSkills: '',
+      remote: '',
+      educationLevel: ''
+    });
+    setQuestionsAnswered(0);
+    setResults("");
+    setError("");
+  }
 
   // Rendering the Fender Bender
   return (
