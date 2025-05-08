@@ -26,6 +26,12 @@ function Basic_Quiz() {
 
   // Check if API key exists
   const [hasApiKey, setHasApiKey] = useState<boolean>(false);
+ 
+   useEffect(() => {
+    const apiKey = localStorage.getItem("MYKEY");
+    setHasApiKey(!!apiKey);
+  }, []);
+
 
   // State Management
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -38,9 +44,7 @@ function Basic_Quiz() {
 
   //On Radio button click
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
-    
     const { name, value } = e.target;
-
     //New form object which is a copy of the old one just with whatever is filled in
     const updatedFormData = {
       ...formData,
@@ -75,7 +79,7 @@ function Basic_Quiz() {
     e.preventDefault();
     console.log('Form submitted:', formData);
     setSubmitted(true);
-    // SEND QUIZ ANSWERS TO THE PRINCIPALS OFFICE AND HAVE HIM EXPELLED (Sent it to ChatGPT)
+    getResponse(parseData(formData));
   };
 
   // Parsing the results of the quiz to human (GPT) readable language
@@ -94,12 +98,25 @@ function Basic_Quiz() {
   // Get responses from OpenAI using "await callOpenAI_API(message)"
   // with message being the user input
   async function getResponse(message: string) {
-    const output = await callOpenAI_API(message)
-    console.log(output)
-
-    // Account for the possibilty of the output being null
-    // Update UseState to store output
-    updateResults(output ?? "") 
+    setIsLoading(true);
+    setError("");
+    
+    try {
+      const output = await callOpenAI_API(message);
+      
+      if (typeof output === 'string' && output.includes("API key is missing or invalid")) {
+        setError("API key is missing or invalid. Please add a valid OpenAI API key on the home page.");
+        setIsLoading(false);
+        return;
+      }
+      
+      setResults(output ?? "No results were returned. Please try again.");
+    } catch (err) {
+      console.error("Error getting career recommendations:", err);
+      setError("Failed to get career recommendations. Please check your API key and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
 
