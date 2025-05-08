@@ -13,15 +13,11 @@ function Home() {
     return savedKey ? JSON.parse(savedKey) : "";
   });
   
-  // State to show a confirmation message when key is saved
-  const [keySaved, setKeySaved] = useState<boolean>(false);
-  
   function handleSubmit() {
     if (key) {
       // Clean up the API Key by removing whitespace
       const cleanedKey = key.trim();
       localStorage.setItem(API_KEY_STORAGE_KEY, JSON.stringify(cleanedKey));
-      setKeySaved(true);
     }
   }
 
