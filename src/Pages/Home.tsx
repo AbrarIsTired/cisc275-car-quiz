@@ -22,11 +22,6 @@ function Home() {
       const cleanedKey = key.trim();
       localStorage.setItem(API_KEY_STORAGE_KEY, JSON.stringify(cleanedKey));
       setKeySaved(true);
-      
-      // Hide the confirmation message after 3 seconds
-      setTimeout(() => {
-        setKeySaved(false);
-      }, 3000);
     }
   }
 
