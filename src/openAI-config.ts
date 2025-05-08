@@ -1,13 +1,5 @@
 import OpenAI from 'openai';
 
-/* 
-CREATE A ".env" FILE IN YOUR ROOT DIRECTORY AND PUT 
-
-    REACT_APP_OPENAI_API_KEY=sk-xxxxyourapikeyxxxxxxxxxxxxxxxxx
-
-whatever our api key was in it (no quotation marks)
-and then put ".env" somewhere in .gitignore to banish it to local forever
-*/ 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY ?? "";
 const client = new OpenAI({apiKey: API_KEY, dangerouslyAllowBrowser: true})
 
@@ -32,19 +24,3 @@ export async function callOpenAI_API(message: string) {
     return reply;
 }
 
-// WIP for when we want to handle errors for invalid user-inputed/localstorage API key 
-/*
-async function getOpenAI_API(key: string): Promise<OpenAI | undefined>{
-    let client;
-    try {
-        client = new OpenAI({apiKey: key, dangerouslyAllowBrowser: true});
-        if (!client) {
-        throw new Error("other error")
-        }
-    } catch (error: any) {
-        // 401 error is invalid api key 
-        console.error("invalid api key")
-    }
-    return client
-}
-*/
