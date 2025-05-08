@@ -3,22 +3,26 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 
-// Local storage for API Key
-let keyData = "";
-const saveKeyData = "MYKEY";
-const prevKey = localStorage.getItem(saveKeyData);
-if (prevKey !== null) {
-  keyData = JSON.parse(prevKey);
-}
+// Define constant for localStorage key
+const API_KEY_STORAGE_KEY = "MYKEY";
 
 function Home() {
-  const [key, setKey] = useState<string>(keyData);
+  // Initialize state with value from localStorage if it exists
+  const [key, setKey] = useState<string>(() => {
+    const savedKey = localStorage.getItem(API_KEY_STORAGE_KEY);
+    return savedKey ? JSON.parse(savedKey) : "";
+  });
+  
+  // State to show a confirmation message when key is saved
+  const [keySaved, setKeySaved] = useState<boolean>(false);
   
   function handleSubmit() {
-    // Cleaning up the API Key. Leaving commented for now, need to test
-    const cleaned_key = key.trim()
-    localStorage.setItem(saveKeyData, JSON.stringify(cleaned_key)); //Changed key to cleaned_key for testing
-    window.location.reload();
+    if (key) {
+      // Clean up the API Key by removing whitespace
+      const cleanedKey = key.trim();
+      localStorage.setItem(API_KEY_STORAGE_KEY, JSON.stringify(cleanedKey));
+      setKeySaved(true);
+    }
   }
 
   function changeKey(event: React.ChangeEvent<HTMLInputElement>) {
