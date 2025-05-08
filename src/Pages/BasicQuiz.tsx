@@ -24,20 +24,19 @@ function Basic_Quiz() {
     educationLevel: ''
   });
 
-  // WIP
-  //const [data, setData] = useState<string[]>(Array(BasicQuestions.length).fill(""))
+  // Check if API key exists
+  const [hasApiKey, setHasApiKey] = useState<boolean>(false);
 
-  //useState Hooks for tracking form status
-  const [submitted, setSubmitted] = useState<boolean>(false); //Submitted Question: T or F State
-  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false); //All Questions Answered: T or F State
-  const [questionsAnswered, setQuestionsAnswered] = useState<number>(0); // Number of questions answered for progess bar
-  //useState Hook to display and update GPT generated quiz results
-  const [results, updateResults] = useState<string>("");
+  // State Management
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false);
+  const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
+  const [results, setResults] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  //Handling Events
 
   //On Radio button click
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
     
     const { name, value } = e.target;
