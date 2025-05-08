@@ -32,6 +32,14 @@ function DetailedQuiz() {
     hobbies: ''
   });
 
+  // Check if API key exists
+  const [hasApiKey, setHasApiKey] = useState<boolean>(false);
+  
+  useEffect(() => {
+    const apiKey = localStorage.getItem("MYKEY");
+    setHasApiKey(!!apiKey);
+  }, []);
+
   // State Management
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false);
@@ -40,13 +48,6 @@ function DetailedQuiz() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   
-  // Check if API key exists
-  const [hasApiKey, setHasApiKey] = useState<boolean>(false);
-  
-  useEffect(() => {
-    const apiKey = localStorage.getItem("MYKEY");
-    setHasApiKey(!!apiKey);
-  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
