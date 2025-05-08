@@ -26,7 +26,6 @@ function Basic_Quiz() {
 
   // Check if API key exists
   const [hasApiKey, setHasApiKey] = useState<boolean>(false);
- 
    useEffect(() => {
     const apiKey = localStorage.getItem("MYKEY");
     setHasApiKey(!!apiKey);
@@ -306,7 +305,6 @@ function Basic_Quiz() {
       ) : (
         <div className="completion-container">
           <h3>You have completed the Basic Career Quiz</h3>
-          
           {isLoading ? (
             <p>Loading your career recommendations...</p>
           ) : error ? (
