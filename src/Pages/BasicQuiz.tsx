@@ -1,5 +1,5 @@
 // src/Pages/BasicQuiz.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { callOpenAI_API } from '../openAI-config';
 // import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
 interface FormData {
@@ -135,14 +135,16 @@ function Basic_Quiz() {
     setError("");
   }
 
-  // Rendering the Fender Bender
-  return (
+// Rendering the Fender Bender
+ return (
     <div className="quiz-page-content">
       <h2>Basic Quiz</h2>
       <p>Answer these 7 questions to help determine your ideal career path</p>
+      
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">      
           <progress id="basic-progress" value={questionsAnswered} max="7"></progress>
+          
           {/* Question 1: Industry */}
           <div className="question-container">
             <h3>Question 1</h3>
@@ -298,29 +300,33 @@ function Basic_Quiz() {
           </div>
           
           {allQuestionsAnswered && (
-            <button type="submit" className="submit-quiz-button" onClick={() => {
-              getResponse(parseData(formData))
-            }}>Submit Quiz</button>
+            <button type="submit" className="submit-quiz-button">Submit Quiz</button>
           )}
         </form>
       ) : (
         <div className="completion-container">
           <h3>You have completed the Basic Career Quiz</h3>
-          <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
-          <div className="basic-quiz-results">{results}</div>
-          <button onClick={() => {setSubmitted(false); setFormData({
-            industry: '',
-            teamWork: '',
-            creative: '',
-            workPace: '',
-            learnNewSkills: '',
-            remote: '',
-            educationLevel: ''});
-            setQuestionsAnswered(0)
-          }} 
-            className="submit-quiz-button">
-            Retake Basic Quiz
-          </button>
+          
+          {isLoading ? (
+            <p>Loading your career recommendations...</p>
+          ) : error ? (
+            <div className="error-message">
+              <p>{error}</p>
+              <button onClick={resetQuiz} className="submit-quiz-button">
+                Retake Basic Quiz
+              </button>
+            </div>
+          ) : (
+            <>
+              <p>Based on your responses, here are your career recommendations:</p>
+              <div className="basic-quiz-results">{results}</div>
+              <button 
+                onClick={resetQuiz} 
+                className="submit-quiz-button">
+                Retake Basic Quiz
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>
