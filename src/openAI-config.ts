@@ -1,10 +1,14 @@
 import OpenAI from 'openai';
 
-const API_KEY = process.env.REACT_APP_OPENAI_API_KEY ?? "";
-const client = new OpenAI({apiKey: API_KEY, dangerouslyAllowBrowser: true})
+export async function callOpenAI_API(message: string) {
+    const apiKey = localStorage.getItem("MYKEY");
+    if(!apiKey){
+        return "API Key is Missing or Invalid. Add an API Key from OpenAI's Secret Key section";
+    }
 
 
-// Gets response from openAI
+}
+/*
 export async function callOpenAI_API(message: string) {
     const response = await client.chat.completions.create({
     model: "gpt-4o",
@@ -23,4 +27,4 @@ export async function callOpenAI_API(message: string) {
     console.log(response.choices[0]?.message?.content);
     return reply;
 }
-
+*/
