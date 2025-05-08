@@ -25,7 +25,7 @@ function Basic_Quiz() {
   });
 
   // Check if API key exists
-  const [hasApiKey, setHasApiKey] = useState<boolean>(false);
+  const [, setHasApiKey] = useState<boolean>(false);
    useEffect(() => {
     const apiKey = localStorage.getItem("MYKEY");
     setHasApiKey(!!apiKey);

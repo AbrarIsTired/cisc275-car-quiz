@@ -33,7 +33,7 @@ function DetailedQuiz() {
   });
 
   // Check if API key exists
-  const [hasApiKey, setHasApiKey] = useState<boolean>(false);
+  const [, setHasApiKey] = useState<boolean>(false);
   
   useEffect(() => {
     const apiKey = localStorage.getItem("MYKEY");
@@ -51,7 +51,6 @@ function DetailedQuiz() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
     const updatedFormData = {
       ...formData,
       [name]: value
