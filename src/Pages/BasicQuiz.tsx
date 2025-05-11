@@ -1,31 +1,31 @@
 // src/Pages/BasicQuiz.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { callOpenAI_API } from '../openAI-config';
 import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
-interface FormData {
-  industry: string;          // Answer to industry question
-  teamWork: string;          // Answer to team work preference
-  creative: string;          // Answer to creativity question (Yes/No)
-  workPace: string;          // Answer to work pace preference
-  learnNewSkills: string;    // Answer to learning new skills question (Yes/No)
-  remote: string;            // Answer to remote work preference (Yes/No)
-  educationLevel: string;    // Answer to education level question
-}
 
-  // State Management
+
 function Basic_Quiz() {
 
-  let init: string[] = Array(BasicQuestions.length).fill("")
-  const [data, setData] = useState<string[]>(init)
-
-  //useState Hooks for tracking form status
-  const [submitted, setSubmitted] = useState<boolean>(false); //Submitted Question: T or F State
-  const [questionsAnswered, setQuestionsAnswered] = useState<number>(0); // Number of questions answered for progess bar
   
-  //useState Hook to display and update GPT generated quiz results
-  const [results, updateResults] = useState<string>("");
 
-  //Handling Events
+  // Check if API key exists
+  const [, setHasApiKey] = useState<boolean>(false);
+   useEffect(() => {
+    const apiKey = localStorage.getItem("MYKEY");
+    setHasApiKey(!!apiKey);
+  }, []);
+
+  
+  let init: string[] = Array(BasicQuestions.length).fill("")
+  
+  // State Management
+  const [data, setData] = useState<string[]>(init)
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
+  const [results, setResults] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
 
   //On Radio button click
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
@@ -33,10 +33,6 @@ function Basic_Quiz() {
     data[index] = e.target.value;
     // Update form data with user responses
     setData([...data.slice(0, index), e.target.value, ...data.slice(index + 1)])
-
-    console.log(data);
-    console.log(e.currentTarget.id);
-    console.log(e.target.value);
 
     // Check if all questions are answered
     const answered: number = Object.values(data).reduce(function(total, val) {
@@ -46,25 +42,18 @@ function Basic_Quiz() {
   };
 
 
-
-
   //Altering the states when submitting the form
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log('Form submitted:', formData);
-    console.log("test: ", data)
     setSubmitted(true);
+    getResponse(parseData());
   };
 
   // Parsing the results of the quiz to human (GPT) readable language
-  function parseData(data: FormData) {
-    let parsed: string = `I am interested in the ${data.industry} industry.
-      I would prefer to work ${data.teamWork === "Independent" ? "independently" : "in teams"}.
-      I am ${data.creative === "Yes" ? "creative" : "not creative"}.
-      I prefer a ${data.workPace === "Slower" ? "slow" : "fast" } paced work environment.
-      I am ${data.learnNewSkills === "Yes" ? "comfortable" : "unflexible"} with learning new skills in the workplace.
-      I want to work ${data.remote === "Yes" ? "remotely" : "in-person"}.
-      ${data.educationLevel === "N/A" ? "" : `The highest level of education I have completed is my ${data.educationLevel}`}`
+  function parseData() {
+    let parsed: string = BasicQuestions.reduce((str: string, question: MultipleChoiceQuestion, index: number) => {
+      return str.concat(question.content.concat(": ").concat(data[index])).concat("\n")
+    }, "")
     console.log(parsed);
     return parsed;
   }
@@ -72,20 +61,41 @@ function Basic_Quiz() {
   // Get responses from OpenAI using "await callOpenAI_API(message)"
   // with message being the user input
   async function getResponse(message: string) {
-    const output = await callOpenAI_API(message)
-    console.log(output)
-
-    // Account for the possibilty of the output being null
-    // Update UseState to store output
-    updateResults(output ?? "") 
+    setIsLoading(true);
+    setError("");
+    
+    try {
+      const output = await callOpenAI_API(message);
+      
+      if (typeof output === 'string' && output.includes("API key is missing or invalid")) {
+        setError("API key is missing or invalid. Please add a valid OpenAI API key on the home page.");
+        setIsLoading(false);
+        return;
+      }
+      
+      setResults(output ?? "No results were returned. Please try again.");
+    } catch (err) {
+      console.error("Error getting career recommendations:", err);
+      setError("Failed to get career recommendations. Please check your API key and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
+ function resetQuiz() {
+    setSubmitted(false);
+    setData(init);
+    setQuestionsAnswered(0);
+    setResults("");
+    setError("");
+  }
 
-  // Rendering the Fender Bender
-  return (
+// Rendering the Fender Bender
+ return (
     <div className="quiz-page-content">
       <h2>Basic Quiz</h2>
       <p>Answer these 7 questions to help determine your ideal career path</p>
+      
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
           {BasicQuestions.map((question: MultipleChoiceQuestion, index: number) => (
@@ -123,9 +133,7 @@ function Basic_Quiz() {
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
           <div className="basic-quiz-results">{results}</div>
           <button onClick={() => {setSubmitted(false); 
-            setQuestionsAnswered(0);
-            setData(init)
-            updateResults("");
+            resetQuiz();
           }} 
             className="submit-quiz-button">
             Retake Basic Quiz

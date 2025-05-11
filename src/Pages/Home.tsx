@@ -3,22 +3,22 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 
-// Local storage for API Key
-let keyData = "";
-const saveKeyData = "MYKEY";
-const prevKey = localStorage.getItem(saveKeyData);
-if (prevKey !== null) {
-  keyData = JSON.parse(prevKey);
-}
+// Define constant for localStorage key
+const API_KEY_STORAGE_KEY = "MYKEY";
 
 function Home() {
-  const [key, setKey] = useState<string>(keyData);
+  // Initialize state with value from localStorage if it exists
+  const [key, setKey] = useState<string>(() => {
+    const savedKey = localStorage.getItem(API_KEY_STORAGE_KEY);
+    return savedKey ? JSON.parse(savedKey) : "";
+  });
   
   function handleSubmit() {
-    // Cleaning up the API Key. Leaving commented for now, need to test
-    // const stripped_key = key.trim()
-    localStorage.setItem(saveKeyData, JSON.stringify(key));
-    window.location.reload();
+    if (key) {
+      // Clean up the API Key by removing whitespace
+      const cleanedKey = key.trim();
+      localStorage.setItem(API_KEY_STORAGE_KEY, JSON.stringify(cleanedKey));
+    }
   }
 
   function changeKey(event: React.ChangeEvent<HTMLInputElement>) {
@@ -30,7 +30,7 @@ function Home() {
       <div style={{width: "65%", padding: "0px 60px 0px 20px", display: "inline-block"}}>
 
         <h1>Welcome to Career Helpy</h1>
-        <p>Choose a quiz to recieve your personal career assessment.</p>
+        <p>Welcome text</p>
         <br></br>
 
         <div className='quiz-info'>
@@ -52,10 +52,10 @@ function Home() {
 
       <div className="api-container" >
         <Form className="mt-4">
-          Enter API Key
+          <Form.Label>Enter API Key</Form.Label>
           <Form.Control type="password" placeholder="Insert API Key Here" onChange={changeKey}></Form.Control>
           <Button className="Submit-Button" onClick={handleSubmit} style={{marginTop: "12px", width: "100%"}}>Submit</Button>
-          <p style={{color: "var(--text-dark)", fontSize: "14px", textAlign: "left", margin: "12px 0px 20px 0px"}}>{!localStorage.getItem("MYKEY") ? "" : "• Key saved from previous session"}</p>
+          <p style={{color: "grey", fontSize: "14px", textAlign: "left", margin: "12px 0px 20px 0px"}}>{!localStorage.getItem("MYKEY") ? "" : "• Key saved from previous session"}</p>
         </Form>
         </div>
     </div>
