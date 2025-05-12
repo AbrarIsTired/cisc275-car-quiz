@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { callOpenAI_API } from '../openAI-config';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown'
 
 interface FormData {
   industry: string;
@@ -424,7 +425,11 @@ function DetailedQuiz() {
           ) : (
             <>
               <p>Based on your responses, here are your career recommendations:</p>
-              <div className="detailed-quiz-results">{results}</div>
+              <div className="quiz-results">
+                <ReactMarkdown>
+                  {results}
+                </ReactMarkdown>
+              </div>
               <button onClick={resetQuiz} className="submit-quiz-button">
                 Retake Detailed Quiz
               </button>

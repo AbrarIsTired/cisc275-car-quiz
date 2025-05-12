@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { callOpenAI_API } from '../openAI-config';
 import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
-import ReactMarkdown from 'react-markdown'
+import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 function Basic_Quiz() {
 
@@ -128,18 +129,29 @@ function Basic_Quiz() {
       ) : (
         <div className="completion-container">
           <h3>You have completed the Basic Career Quiz</h3>
-          <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
-          <div className="basic-quiz-results">
-            <ReactMarkdown> 
-              {results}
-            </ReactMarkdown>
-          </div>
-          <button onClick={() => {setSubmitted(false); 
-            resetQuiz();
-          }} 
-            className="submit-quiz-button">
-            Retake Basic Quiz
-          </button>
+          {isLoading ? (
+            <p>Loading your career recommendations...</p>
+          ) : error ? (
+            <div className="error-message">
+              <p>{error}</p>
+              <Link to="/" className="link-button">Add API Key</Link>
+              <button onClick={resetQuiz} className="submit-quiz-button">
+                Retake Basic Quiz
+              </button>
+            </div>
+          ) : (
+            <>
+              <p>Based on your responses, here are your career recommendations:</p>
+              <div className="quiz-results">
+                <ReactMarkdown>
+                  {results}
+                </ReactMarkdown>
+              </div>
+              <button onClick={resetQuiz} className="submit-quiz-button">
+                Retake Basic Quiz
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

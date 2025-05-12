@@ -337,6 +337,6 @@ input:checked + .slider:before {
 }
 
 /* QUIZ RESULTS */
-.basic-quiz-results {
+.quiz-results {
   text-align: left;
 }
