@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { callOpenAI_API } from '../openAI-config';
 import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
-
+import ReactMarkdown from 'react-markdown'
 
 function Basic_Quiz() {
 
@@ -16,10 +16,10 @@ function Basic_Quiz() {
   }, []);
 
   
-  let init: string[] = Array(BasicQuestions.length).fill("")
-  
+  let init: string[] = Array(BasicQuestions.length).fill("");
+
   // State Management
-  const [data, setData] = useState<string[]>(init)
+  const [data, setData] = useState<string[]>(init);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
   const [results, setResults] = useState<string>("");
@@ -37,7 +37,7 @@ function Basic_Quiz() {
     // Check if all questions are answered
     const answered: number = Object.values(data).reduce(function(total, val) {
       return total + ((val !== "") ? 1 : 0);}, 0);
-    console.log(answered)
+    console.log(answered);
     setQuestionsAnswered(answered);
   };
 
@@ -52,7 +52,7 @@ function Basic_Quiz() {
   // Parsing the results of the quiz to human (GPT) readable language
   function parseData() {
     let parsed: string = BasicQuestions.reduce((str: string, question: MultipleChoiceQuestion, index: number) => {
-      return str.concat(question.content.concat(": ").concat(data[index])).concat("\n")
+      return str.concat(question.content.concat(": ").concat(data[index])).concat("\n");
     }, "")
     console.log(parsed);
     return parsed;
@@ -118,20 +118,22 @@ function Basic_Quiz() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> 
           ))}
           
           {(questionsAnswered === BasicQuestions.length) && (
-            <button type="submit" className="submit-quiz-button" onClick={() => {
-              getResponse("")
-            }}>Submit Quiz</button>
+            <button type="submit" className="submit-quiz-button">Submit Quiz</button>
           )}
         </form>
       ) : (
         <div className="completion-container">
           <h3>You have completed the Basic Career Quiz</h3>
           <p>Your responses have been recorded. We'll send it to the ChatGPT Dimension Soon :tm:</p>
-          <div className="basic-quiz-results">{results}</div>
+          <div className="basic-quiz-results">
+            <ReactMarkdown> 
+              {results}
+            </ReactMarkdown>
+          </div>
           <button onClick={() => {setSubmitted(false); 
             resetQuiz();
           }} 
@@ -143,5 +145,14 @@ function Basic_Quiz() {
     </div>
   );
 }
+
+/*
+QUIZ RESULTS
+- Top 3 career recommendation 
+- Description of career
+- Salary and demand
+- Required education level
+- Required skillsets
+*/
 
 export default Basic_Quiz;
