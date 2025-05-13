@@ -15,7 +15,7 @@ export const DetailedQuestions = [
               '80,000-100,000', 
               '100,000+' ]
   },{ 
-    label: "salary",
+    label: "education",
     content: "What is the highest level of education you intend to complete?",
     options: ['PHD', 
               'Masters', 
@@ -53,7 +53,7 @@ export const DetailedQuestions = [
               '10-15',
               '15+']
   },{ 
-    label: "teamSize",
+    label: "learnNewSkills",
     content: "Are you comfortable with learning new skills as your field evolves?",
     options: ['Yes', 
               'No']

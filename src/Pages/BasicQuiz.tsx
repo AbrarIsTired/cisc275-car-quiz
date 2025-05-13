@@ -7,8 +7,6 @@ import ReactMarkdown from 'react-markdown';
 
 function Basic_Quiz() {
 
-  
-
   // Check if API key exists
   const [, setHasApiKey] = useState<boolean>(false);
    useEffect(() => {
@@ -47,7 +45,13 @@ function Basic_Quiz() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    getResponse(parseData());
+
+    const apiKey = localStorage.getItem("MYKEY");
+    if (apiKey) {
+      getResponse(parseData());
+    } else {
+      setError("API key is missing. Please add your OpenAI API key to get your career recommendations.");
+    }
   };
 
   // Parsing the results of the quiz to human (GPT) readable language
@@ -99,6 +103,7 @@ function Basic_Quiz() {
       
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
+          <progress id="basic-progress" value={questionsAnswered} max={BasicQuestions.length}></progress>
           {BasicQuestions.map((question: MultipleChoiceQuestion, index: number) => (
             <div className="question-container">
               <h3>Question {index + 1}</h3>
