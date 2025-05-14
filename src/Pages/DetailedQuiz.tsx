@@ -192,11 +192,15 @@ function DetailedQuiz() {
             <p>Loading your career recommendations...</p>
           ) : error ? (
             <div className="error-message">
-              <p>{error}</p>
-              <Link to="/" className="link-button">Add API Key</Link>
-              <button onClick={resetQuiz} className="submit-button">
-                Retake Detailed Quiz
-              </button>
+            <p style={{marginBottom:"100px"}}>{error}</p>
+              <div style={{textAlign: "left", display: "inline-block", width: "30%"}}>
+                <Link to="/" className="progress-button">Add API Key</Link>
+              </div>
+              <div style={{textAlign: "right", display: "inline-block", width: "30%"}}>
+                <button onClick={resetQuiz} className="progress-button">
+                  Retake Detailed Quiz
+                </button>
+              </div>
             </div>
           ) : (
             <>
