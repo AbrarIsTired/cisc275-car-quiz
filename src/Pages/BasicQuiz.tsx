@@ -159,7 +159,7 @@ function Basic_Quiz() {
             <div className="error-message">
               <p>{error}</p>
               <Link to="/" className="link-button">Add API Key</Link>
-              <button onClick={resetQuiz} className="submit-quiz-button">
+              <button onClick={resetQuiz} className="progress-button">
                 Retake Basic Quiz
               </button>
             </div>

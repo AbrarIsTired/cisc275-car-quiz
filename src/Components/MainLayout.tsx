@@ -52,8 +52,8 @@ function MainLayout() {
             <input type="checkbox" id="light-dark-checkbox" onClick={() => toggleLightDark()}></input>
             <span className="slider round">
               {!darkMode ? 
-              <img src={light} style={{position: "absolute", top: "4px", right: "4px", width: "35px", height: "35px"}} alt=""/> :
-              <img src={dark} style={{position: "absolute", top: "4px", right: "4px", width: "35px", height: "35px"}} alt=""/>
+              <img src={light} className='dark-mode-img' alt=""/> :
+              <img src={dark} className='dark-mode-img' alt=""/>
               }
             </span>
           </label>

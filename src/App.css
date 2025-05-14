@@ -393,7 +393,12 @@ input:focus + .slider {
   border-radius: 50%;
 }
 
-img {
+.dark-mode-img {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 35px;
+  height: 35px;
   opacity: 0.5;
 }
 

@@ -194,7 +194,7 @@ function DetailedQuiz() {
             <div className="error-message">
               <p>{error}</p>
               <Link to="/" className="link-button">Add API Key</Link>
-              <button onClick={resetQuiz} className="submit-quiz-button">
+              <button onClick={resetQuiz} className="submit-button">
                 Retake Detailed Quiz
               </button>
             </div>
