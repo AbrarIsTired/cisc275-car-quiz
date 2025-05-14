@@ -4,6 +4,7 @@ import { callOpenAI_API } from '../openAI-config';
 import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import { Button } from 'react-bootstrap';
 
 function Basic_Quiz() {
 
@@ -24,6 +25,7 @@ function Basic_Quiz() {
   const [results, setResults] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
 
 
   //On Radio button click
@@ -38,8 +40,19 @@ function Basic_Quiz() {
       return total + ((val !== "") ? 1 : 0);}, 0);
     console.log(answered);
     setQuestionsAnswered(answered);
+    if (data[index+1] === "") {
+      setCurrentQuestion(index+1);
+    }
   };
 
+  // Parsing the results of the quiz to human (GPT) readable language
+  function parseData() {
+    let parsed: string = BasicQuestions.reduce((str: string, question: MultipleChoiceQuestion, index: number) => {
+      return str.concat(question.content.concat(": ").concat(data[index])).concat("\n");
+    }, "")
+    console.log(parsed);
+    return parsed;
+  }
 
   //Altering the states when submitting the form
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,15 +66,6 @@ function Basic_Quiz() {
       setError("API key is missing. Please add your OpenAI API key to get your career recommendations.");
     }
   };
-
-  // Parsing the results of the quiz to human (GPT) readable language
-  function parseData() {
-    let parsed: string = BasicQuestions.reduce((str: string, question: MultipleChoiceQuestion, index: number) => {
-      return str.concat(question.content.concat(": ").concat(data[index])).concat("\n");
-    }, "")
-    console.log(parsed);
-    return parsed;
-  }
 
   // Get responses from OpenAI using "await callOpenAI_API(message)"
   // with message being the user input
@@ -93,19 +97,19 @@ function Basic_Quiz() {
     setQuestionsAnswered(0);
     setResults("");
     setError("");
+    setCurrentQuestion(0);
   }
 
 // Rendering the Fender Bender
  return (
     <div className="quiz-page-content">
-      <h2>Basic Quiz</h2>
-      <p>Answer these 7 questions to help determine your ideal career path</p>
-      
+
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
           <progress id="basic-progress" value={questionsAnswered} max={BasicQuestions.length}></progress>
-          {BasicQuestions.map((question: MultipleChoiceQuestion, index: number) => (
-            <div className="question-container">
+          {
+          BasicQuestions.map((question: MultipleChoiceQuestion, index: number) => (
+            <div className="question-container" style={{display: (index === currentQuestion) ? "block" : "none"}}>
               <h3>Question {index + 1}</h3>
               <p className="question-text">{question.content}</p>
               <div className="options-container">
@@ -124,12 +128,27 @@ function Basic_Quiz() {
                   </div>
                 ))}
               </div>
-            </div> 
+              <div className="quiz-progression">
+                <div style={{textAlign: "left", display: "inline-block", width: "50%"}}>
+                  <Button className="progress-button" type="button" disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(index-1)}>
+                    Previous
+                  </Button>
+                </div>
+                <div style={{textAlign: "right", display: "inline-block", width: "50%"}}>
+                  {currentQuestion === BasicQuestions.length-1 ?
+                  (
+                    <button className="progress-button" type="submit" disabled={questionsAnswered !== BasicQuestions.length}>
+                      Submit Quiz
+                    </button> 
+                  ) : (
+                    <Button className="progress-button" type="button" onClick={() => setCurrentQuestion(index+1)} style={{display: (currentQuestion < questionsAnswered) ? "inline-block" : "none"}}>
+                      Next
+                    </Button>
+                  )}
+                </div>
+              </div> 
+            </div>
           ))}
-          
-          {(questionsAnswered === BasicQuestions.length) && (
-            <button type="submit" className="submit-quiz-button">Submit Quiz</button>
-          )}
         </form>
       ) : (
         <div className="completion-container">
@@ -152,7 +171,7 @@ function Basic_Quiz() {
                   {results}
                 </ReactMarkdown>
               </div>
-              <button onClick={resetQuiz} className="submit-quiz-button">
+              <button onClick={resetQuiz} className="progress-button">
                 Retake Basic Quiz
               </button>
             </>

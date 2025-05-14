@@ -15,6 +15,7 @@ function About() {
       <ul>
         <li>React</li>
         <li>React Routing</li>
+        <li>React Markdown</li>
         <li>TypeScript</li>
         <li>HTML</li>
         <li>CSS</li>

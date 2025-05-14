@@ -47,7 +47,7 @@ export const DetailedQuestions = [
               'Team']
   },{ 
     label: "teamSize",
-    content: "What team size would you work in best?",
+    content: "If required to, what team size would you work in best?",
     options: ['2-4', 
               '5-10',
               '10-15',

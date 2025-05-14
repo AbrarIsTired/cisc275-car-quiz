@@ -4,7 +4,7 @@ import { callOpenAI_API } from '../openAI-config';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import { DetailedQuestions } from './detailedQuestions' 
-import { MultipleChoiceQuestion } from './basicQuestions';
+import { Button } from 'react-bootstrap';
 
 function DetailedQuiz() {
 
@@ -25,6 +25,7 @@ function DetailedQuiz() {
   const [results, setResults] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
@@ -32,13 +33,17 @@ function DetailedQuiz() {
     data[index] = e.target.value;
     // Update form data with user responses
     setData([...data.slice(0, index), e.target.value, ...data.slice(index + 1)]);
-    console.log(data);
-    console.log(index)
+    
     // Check if all questions are answered
     const answered: number = Object.values(data).reduce(function(total, val) {
       return total + ((val !== "") ? 1 : 0);}, 0);
     console.log(answered);
     setQuestionsAnswered(answered);
+    if ((e.currentTarget.id).split("-")[1] === "text") {
+      return;
+    } else if (data[index+1] === "") {
+      setCurrentQuestion(index+1);
+    }
   };
 
   function parseData() {
@@ -90,20 +95,17 @@ function DetailedQuiz() {
     setQuestionsAnswered(0);
     setResults("");
     setError("");
+    setCurrentQuestion(0);
   }
 
   return (
     <div className="quiz-page-content">
-      <h2>Detailed Quiz</h2>
-      <p>Answer these 10 questions to help determine your ideal career path</p>
-      
       {!submitted ? (
         <form onSubmit={handleSubmit} className="quiz-form">
           <progress id="basic-progress" value={questionsAnswered} max={DetailedQuestions.length}></progress>
-          {DetailedQuestions.map((question, index: number) => {
-            if (question.options) {
-              return (
-              <div className="question-container">
+          {DetailedQuestions.map((question, index: number) => 
+            (question.options) ? (
+              <div className="question-container" style={{display: (index === currentQuestion) ? "block" : "none"}}>
               <h3>Question {index + 1}</h3>
               <p className="question-text">{question.content}</p>
                 <div className="options-container">
@@ -122,16 +124,35 @@ function DetailedQuiz() {
                     </div>
                   ))}
                 </div>
-              </div> )
-            } else {
-              return (
-              <div className="question-container">
+                <div className="quiz-progression">
+                  <div style={{textAlign: "left", display: "inline-block", width: "50%"}}>
+                    <Button className="progress-button" type="button" disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(index-1)}>
+                      Previous
+                    </Button>
+                  </div>
+                  <div style={{textAlign: "right", display: "inline-block", width: "50%"}}>
+                    {currentQuestion === DetailedQuestions.length-1 ?
+                    (
+                      <button className="progress-button" type="submit" disabled={questionsAnswered !== DetailedQuestions.length}>
+                        Submit Quiz
+                      </button> 
+                    ) : (
+                      <Button className="progress-button" type="button" onClick={() => setCurrentQuestion(index+1)} style={{display: (currentQuestion < questionsAnswered) ? "inline-block" : "none"}}>
+                        Next
+                      </Button>
+                    )}
+                  </div>
+                </div> 
+              </div> 
+              ) : (
+              <div className="question-container" style={{display: (index === currentQuestion) ? "block" : "none"}}>
               <h3>Question {index + 1}</h3>
               <p className="question-text">{question.content}</p>
                 <div className="response-container">
                   <div className="response">
                     <input
                       type="text"
+                      placeholder="Type your response here"
                       id={`${index}-text`}
                       name={question.label}
                       value={data[index]}
@@ -140,13 +161,27 @@ function DetailedQuiz() {
                     />
                   </div>
                 </div>
+                <div className="quiz-progression">
+                  <div style={{textAlign: "left", display: "inline-block", width: "50%"}}>
+                    <Button className="progress-button" type="button" disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(index-1)}>
+                      Previous
+                    </Button>
+                  </div>
+                  <div style={{textAlign: "right", display: "inline-block", width: "50%"}}>
+                    {currentQuestion === DetailedQuestions.length-1 ?
+                    (
+                      <button className="progress-button" type="submit" disabled={questionsAnswered !== DetailedQuestions.length}>
+                        Submit Quiz
+                      </button> 
+                    ) : (
+                      <Button className="progress-button" disabled={data[index] === ""} type="button" onClick={() => setCurrentQuestion(index+1)} >
+                        Next
+                      </Button>
+                    )}
+                  </div>
+                </div> 
               </div>
               )
-            }
-          })}
-          
-          {(questionsAnswered === DetailedQuestions.length) && (
-            <button type="submit" className="submit-quiz-button">Submit Quiz</button>
           )}
         </form>
       ) : (
@@ -171,7 +206,7 @@ function DetailedQuiz() {
                   {results}
                 </ReactMarkdown>
               </div>
-              <button onClick={resetQuiz} className="submit-quiz-button">
+              <button onClick={resetQuiz} className="progress-button">
                 Retake Detailed Quiz
               </button>
             </>

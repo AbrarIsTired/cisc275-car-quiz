@@ -3,11 +3,13 @@
   color-scheme: light dark;
   --orange: #ca7718;
   --lighter-orange: #d68527;
+  --lightest-orange: #d59857;
   --nav-hover: #fff7e9;
   --nav-text: #53443e;
   --nav-text-hover: #8e6152;
   --blue: #3c4e73;
   --lighter-blue: #465f8f;
+  --lightest-blue: #6192d5;
   --bg-color: #f1f1f1;
   --form-border: #e4e9ed;
   --api-form-bg: white;
@@ -30,13 +32,15 @@ body {
 .dark-mode {
   color: white;
   background-color: #2c2b2a;
-  --orange: #b7660a;
-  --lighter-orange: #bd7019;
+  --orange: #ad6007;
+  --lighter-orange: #b5670e;
+  --lightest-orange: #bb8245;
   --nav-hover: #323647;
   --nav-text: #d9d9d9;
   --nav-text-hover: white;
   --blue: #292c36;
   --lighter-blue: #343b45;
+  --lightest-blue: #718aad;
   --bg-color: rgb(57, 57, 60);
   --form-border: #42464a;
   --api-form-bg: #515054;
