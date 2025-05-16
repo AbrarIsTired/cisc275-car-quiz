@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/cisc275-car-quiz/static/css/main.b1284d05.css",
-    "main.js": "/cisc275-car-quiz/static/js/main.e0941260.js",
+    "main.css": "/cisc275-car-quiz/static/css/main.26ed21a5.css",
+    "main.js": "/cisc275-car-quiz/static/js/main.d2eef055.js",
     "static/js/453.bad6c33a.chunk.js": "/cisc275-car-quiz/static/js/453.bad6c33a.chunk.js",
-    "static/media/logo.svg": "/cisc275-car-quiz/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/media/fish.png": "/cisc275-car-quiz/static/media/fish.4a2d443088fb73d76174.png",
     "index.html": "/cisc275-car-quiz/index.html",
-    "main.b1284d05.css.map": "/cisc275-car-quiz/static/css/main.b1284d05.css.map",
-    "main.e0941260.js.map": "/cisc275-car-quiz/static/js/main.e0941260.js.map",
+    "main.26ed21a5.css.map": "/cisc275-car-quiz/static/css/main.26ed21a5.css.map",
+    "main.d2eef055.js.map": "/cisc275-car-quiz/static/js/main.d2eef055.js.map",
     "453.bad6c33a.chunk.js.map": "/cisc275-car-quiz/static/js/453.bad6c33a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b1284d05.css",
-    "static/js/main.e0941260.js"
+    "static/css/main.26ed21a5.css",
+    "static/js/main.d2eef055.js"
   ]
 }
