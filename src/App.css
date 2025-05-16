@@ -40,8 +40,10 @@
   padding: 150px;
   margin: 0px;
   border: 1px solid var(--solid);
+  min-height: 750px; 
 }
 
+/* NAVIGATION BAR*/
 .main-nav {
   padding-top: 20px;
 }
@@ -89,6 +91,23 @@ nav li {
   margin-right: 20px;
 }
 
+/* .btn-primary {
+  background-color: var(--solid);
+  color: var(--nav-text);
+  text-decoration: none;
+  color: var(--nav-text);
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px 10px;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--nav-hover);
+  color: var(--nav-text-hover)
+} */
+
+
 /* OTHER */
 .page-content {
   text-align: left;
@@ -105,29 +124,6 @@ nav li {
   background-color: var(--lighter-blue);
 }
 
-.submit-quiz-button {
-  background-color: var(--orange);
-  color: var(--text-light);
-  font-weight: bold;
-  font-size: larger;
-  text-align: center;
-  text-decoration: none;
-  width: auto;
-  height: 40%;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-  border: 2px solid var(--orange);
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-  display: inline;
-}
-
-.submit-quiz-button:hover {
-  background-color: var(--lighter-orange);
-  color: var(--text-light);
-  border: 2px solid var(--lighter-orange);
-
-}
 
 @keyframes App-logo-spin {
   from {
@@ -212,6 +208,7 @@ nav li {
   background: var(--option-selected);
   transition: color .15s ease-in-out;
   background-color: .15s ease-in-out;
+  border-radius: .5rem;
   border-color: .15s ease-in-out; 
   box-shadow: .15s ease-in-out;
 }
@@ -225,15 +222,33 @@ input[type=radio] {
   opacity: 0;
 }
 
+input[type=text] {
+width: 100%;
+  height: 56px;
+  position: relative;
+  padding: 0px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  background-color: var(--solid);
+  color: var(--text-dark);
+  outline: none;
+  box-shadow: 0px 4px 20px 0px transparent;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out, 0.1s padding ease-in-out;
+
+}
+
 label:hover, label:active {
   background: var(--option-hover);
   transition: .15s;
-  
   border-radius: .5rem;
 }
 
 input[type=radio]:checked:hover+label {
   background: var(--option-selected);
+  border-radius: .5rem;
   transition: 0.3s
 }
 
@@ -243,13 +258,53 @@ input[type=radio]:checked:hover+label {
 
 .quiz-page-content {
   text-align: center;
+  min-height: 450px;
 }
 
-/* PROGESS BAR */
-progress {
-  position: fixed;
-  border-radius: 7px; 
+/* PROGRESSION */
+
+.quiz-progression {
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.progress-button {
   bottom: 0px;
+  background-color: var(--orange);
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: larger;
+  text-align: center;
+  text-decoration: none;
+  min-width: 30%;
+  height: 30%;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 2px solid var(--orange);
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  display: inline;
+}
+
+.progress-button:hover {
+  background-color: var(--lighter-orange);
+  color: var(--text-light);
+  border: 2px solid var(--lighter-orange);
+
+}
+
+.progress-button:disabled {
+  background-color: var(--lightest-orange);
+  border: 2px solid var(--lighter-orange);
+}
+
+
+progress {
+  position: absolute;
+  border-radius: 7px; 
+  top: 111px;
   right: 0px;
   width: 100%;
   height: 22px;
@@ -257,22 +312,22 @@ progress {
 }
 
 progress::-webkit-progress-bar {
-  background-color: rgb(225, 224, 219);
+  background-color: var(--form-border);
   border-radius: 7px;
 }
 progress::-webkit-progress-value {
-  background-color: rgb(78, 140, 190);
+  background-color: var(--lightest-blue);
   border-radius: 7px;
 }
 
 
 /* DARK MODE SLIDER */
 .switch {
-  position: relative;
+  position: absolute;
   display: inline-block;
-  width: 60px;
-  height: 34px;
-
+  width: 50px;
+  height: 50px;
+  right: 45px;
 }
 
 .switch:hover {
@@ -305,8 +360,8 @@ progress::-webkit-progress-value {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 35px;
+  width: 35px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -322,17 +377,32 @@ input:focus + .slider {
   box-shadow: 0 0 1px #688aa8;
 }
 
-input:checked + .slider:before {
+/* input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
-}
+} */
 
 .slider.round {
-  border-radius: 34px;
+  border-radius: 43px;
+  width: 43px;
+  height: 43px;
 }
 
 .slider.round:before {
   border-radius: 50%;
 }
 
+.dark-mode-img {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 35px;
+  height: 35px;
+  opacity: 0.5;
+}
+
+/* QUIZ RESULTS */
+.quiz-results {
+  text-align: left;
+}

@@ -1,28 +1,12 @@
 // src/Pages/BasicQuiz.tsx
 import React, { useState, useEffect } from 'react';
 import { callOpenAI_API } from '../openAI-config';
-// import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
-interface FormData {
-  industry: string;          // Answer to industry question
-  teamWork: string;          // Answer to team work preference
-  creative: string;          // Answer to creativity question (Yes/No)
-  workPace: string;          // Answer to work pace preference
-  learnNewSkills: string;    // Answer to learning new skills question (Yes/No)
-  remote: string;            // Answer to remote work preference (Yes/No)
-  educationLevel: string;    // Answer to education level question
-}
+import { BasicQuestions, MultipleChoiceQuestion } from './basicQuestions';
+import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { Button } from 'react-bootstrap';
 
-  // State Management
 function Basic_Quiz() {
-  const [formData, setFormData] = useState<FormData>({
-    industry: '',
-    teamWork: '',
-    creative: '',
-    workPace: '',
-    learnNewSkills: '',
-    remote: '',
-    educationLevel: ''
-  });
 
   // Check if API key exists
   const [, setHasApiKey] = useState<boolean>(false);
@@ -31,68 +15,57 @@ function Basic_Quiz() {
     setHasApiKey(!!apiKey);
   }, []);
 
+  
+  let init: string[] = Array(BasicQuestions.length).fill("");
 
   // State Management
+  const [data, setData] = useState<string[]>(init);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState<boolean>(false);
   const [questionsAnswered, setQuestionsAnswered] = useState<number>(0);
   const [results, setResults] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
 
 
   //On Radio button click
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
-    const { name, value } = e.target;
-    //New form object which is a copy of the old one just with whatever is filled in
-    const updatedFormData = {
-      ...formData,
-      [name]: value
-    };
-
-
-    //Update state with new data
-    setFormData(updatedFormData);
+    const index: number = +(e.currentTarget.id).split("-")[0];
+    data[index] = e.target.value;
+    // Update form data with user responses
+    setData([...data.slice(0, index), e.target.value, ...data.slice(index + 1)])
 
     // Check if all questions are answered
-    // checkAllQuestionsAnswered(updatedFormData);
-    checkAllQuestionsAnswered(updatedFormData);
-  };
-
-
-  const checkAllQuestionsAnswered = (data: FormData) => {
-    // Check if all fields have a non-empty value
-    const allAnswered = Object.values(data).every(value => value !== '');
-    setAllQuestionsAnswered(allAnswered);
-
-    // Counts the number of non-empty values in the interface object
     const answered: number = Object.values(data).reduce(function(total, val) {
       return total + ((val !== "") ? 1 : 0);}, 0);
-    console.log(answered)
+    console.log(answered);
     setQuestionsAnswered(answered);
+    if (data[index+1] === "") {
+      setCurrentQuestion(index+1);
+    }
   };
 
+  // Parsing the results of the quiz to human (GPT) readable language
+  function parseData() {
+    let parsed: string = BasicQuestions.reduce((str: string, question: MultipleChoiceQuestion, index: number) => {
+      return str.concat(question.content.concat(": ").concat(data[index])).concat("\n");
+    }, "")
+    console.log(parsed);
+    return parsed;
+  }
 
   //Altering the states when submitting the form
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
     setSubmitted(true);
-    getResponse(parseData(formData));
-  };
 
-  // Parsing the results of the quiz to human (GPT) readable language
-  function parseData(data: FormData) {
-    let parsed: string = `I am interested in the ${data.industry} industry.
-      I would prefer to work ${data.teamWork === "Independent" ? "independently" : "in teams"}.
-      I am ${data.creative === "Yes" ? "creative" : "not creative"}.
-      I prefer a ${data.workPace === "Slower" ? "slow" : "fast" } paced work environment.
-      I am ${data.learnNewSkills === "Yes" ? "comfortable" : "unflexible"} with learning new skills in the workplace.
-      I want to work ${data.remote === "Yes" ? "remotely" : "in-person"}.
-      ${data.educationLevel === "N/A" ? "" : `The highest level of education I have completed is my ${data.educationLevel}`}`
-    console.log(parsed);
-    return parsed;
-  }
+    const apiKey = localStorage.getItem("MYKEY");
+    if (apiKey) {
+      getResponse(parseData());
+    } else {
+      setError("API key is missing. Please add your OpenAI API key to get your career recommendations.");
+    }
+  };
 
   // Get responses from OpenAI using "await callOpenAI_API(message)"
   // with message being the user input
@@ -120,187 +93,62 @@ function Basic_Quiz() {
 
  function resetQuiz() {
     setSubmitted(false);
-    setFormData({
-      industry: '',
-      teamWork: '',
-      creative: '',
-      workPace: '',
-      learnNewSkills: '',
-      remote: '',
-      educationLevel: ''
-    });
+    setData(init);
     setQuestionsAnswered(0);
     setResults("");
     setError("");
+    setCurrentQuestion(0);
   }
 
 // Rendering the Fender Bender
  return (
     <div className="quiz-page-content">
-      <h2>Basic Quiz</h2>
-      <p>Answer these 7 questions to help determine your ideal career path</p>
-      
+
       {!submitted ? (
-        <form onSubmit={handleSubmit} className="quiz-form">      
-          <progress id="basic-progress" value={questionsAnswered} max="7"></progress>
-          
-          {/* Question 1: Industry */}
-          <div className="question-container">
-            <h3>Question 1</h3>
-            <p className="question-text">What industry would you be most interested in working in?</p>
-            <div className="options-container">
-              {['STEM', 'Medicine', 'Finance/Economics', 'Business Administration/Management', 'Creative arts and humanities'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`industry-${option}`}
-                    name="industry"
-                    value={option}
-                    checked={formData.industry === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`industry-${option}`}>{option}</label>
+        <form onSubmit={handleSubmit} className="quiz-form">
+          <progress id="basic-progress" value={questionsAnswered} max={BasicQuestions.length}></progress>
+          {
+          BasicQuestions.map((question: MultipleChoiceQuestion, index: number) => (
+            <div className="question-container" style={{display: (index === currentQuestion) ? "block" : "none"}}>
+              <h3>Question {index + 1}</h3>
+              <p className="question-text">{question.content}</p>
+              <div className="options-container">
+                {question.options.map((option: string) => (
+                  <div className="option" key={option}>
+                    <input
+                      type="radio"
+                      id={`${index}-${option}`}
+                      name={question.label}
+                      value={option}
+                      onChange={handleInputChange}
+                      checked={data[index] === option}
+                      required
+                    />
+                    <label htmlFor={`${index}-${option}`}>{option}</label>
+                  </div>
+                ))}
+              </div>
+              <div className="quiz-progression">
+                <div style={{textAlign: "left", display: "inline-block", width: "50%"}}>
+                  <Button className="progress-button" type="button" disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(index-1)}>
+                    Previous
+                  </Button>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 2: Team Work */}
-          <div className="question-container">
-            <h3>Question 2</h3>
-            <p className="question-text">Do you work best with a team or independently?</p>
-            <div className="options-container">
-              {['Independently', 'In teams'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`teamWork-${option}`}
-                    name="teamWork"
-                    value={option}
-                    checked={formData.teamWork === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`teamWork-${option}`}>{option}</label>
+                <div style={{textAlign: "right", display: "inline-block", width: "50%"}}>
+                  {currentQuestion === BasicQuestions.length-1 ?
+                  (
+                    <button className="progress-button" type="submit" disabled={questionsAnswered !== BasicQuestions.length}>
+                      Submit Quiz
+                    </button> 
+                  ) : (
+                    <Button className="progress-button" type="button" onClick={() => setCurrentQuestion(index+1)} style={{display: (currentQuestion < questionsAnswered) ? "inline-block" : "none"}}>
+                      Next
+                    </Button>
+                  )}
                 </div>
-              ))}
+              </div> 
             </div>
-          </div>
-
-          {/* Question 3: Creative */}
-          <div className="question-container">
-            <h3>Question 3</h3>
-            <p className="question-text">Are you a creative person?</p>
-            <div className="options-container">
-              {['Yes', 'No'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`creative-${option}`}
-                    name="creative"
-                    value={option}
-                    checked={formData.creative === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`creative-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 4: Work Pace */}
-          <div className="question-container">
-            <h3>Question 4</h3>
-            <p className="question-text">Do you prefer a slower or faster paced work environment?</p>
-            <div className="options-container">
-              {['Slower', 'Faster'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`workPace-${option}`}
-                    name="workPace"
-                    value={option}
-                    checked={formData.workPace === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`workPace-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 5: Learn New Skills */}
-          <div className="question-container">
-            <h3>Question 5</h3>
-            <p className="question-text">Are you comfortable with learning new skills in everchanging fields?</p>
-            <div className="options-container">
-              {['Yes', 'No'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`learnNewSkills-${option}`}
-                    name="learnNewSkills"
-                    value={option}
-                    checked={formData.learnNewSkills === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`learnNewSkills-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 6: Remote Work */}
-          <div className="question-container">
-            <h3>Question 6</h3>
-            <p className="question-text">Do you want to work remotely?</p>
-            <div className="options-container">
-              {['Yes', 'No'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`remote-${option}`}
-                    name="remote"
-                    value={option}
-                    checked={formData.remote === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`remote-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Question 7: Education Level */}
-          <div className="question-container">
-            <h3>Question 7</h3>
-            <p className="question-text">What is the highest level of education you have completed?</p>
-            <div className="options-container">
-              {['PHD', 'Masters', 'Bachelors', 'Associates', 'High School/GED Equivalent', 'N/A'].map((option) => (
-                <div className="option" key={option}>
-                  <input
-                    type="radio"
-                    id={`educationLevel-${option}`}
-                    name="educationLevel"
-                    value={option}
-                    checked={formData.educationLevel === option}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor={`educationLevel-${option}`}>{option}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {allQuestionsAnswered && (
-            <button type="submit" className="submit-quiz-button">Submit Quiz</button>
-          )}
+          ))}
         </form>
       ) : (
         <div className="completion-container">
@@ -309,18 +157,25 @@ function Basic_Quiz() {
             <p>Loading your career recommendations...</p>
           ) : error ? (
             <div className="error-message">
-              <p>{error}</p>
-              <button onClick={resetQuiz} className="submit-quiz-button">
-                Retake Basic Quiz
-              </button>
-            </div>
+              <p style={{marginBottom:"100px"}}>{error}</p>
+                <div style={{textAlign: "left", display: "inline-block", width: "30%"}}>
+                  <Link to="/" className="progress-button">Add API Key</Link>
+                </div>
+                <div style={{textAlign: "right", display: "inline-block", width: "30%"}}>
+                  <button onClick={resetQuiz} className="progress-button">
+                    Retake Basic Quiz
+                  </button>
+                </div>
+              </div>
           ) : (
             <>
               <p>Based on your responses, here are your career recommendations:</p>
-              <div className="basic-quiz-results">{results}</div>
-              <button 
-                onClick={resetQuiz} 
-                className="submit-quiz-button">
+              <div className="quiz-results">
+                <ReactMarkdown>
+                  {results}
+                </ReactMarkdown>
+              </div>
+              <button onClick={resetQuiz} className="progress-button">
                 Retake Basic Quiz
               </button>
             </>
@@ -330,5 +185,14 @@ function Basic_Quiz() {
     </div>
   );
 }
+
+/*
+QUIZ RESULTS
+- Top 3 career recommendation 
+- Description of career
+- Salary and demand
+- Required education level
+- Required skillsets
+*/
 
 export default Basic_Quiz;

@@ -1,16 +1,17 @@
 // src/components/MainLayout.tsx
 import React, {useState} from 'react';
 import { Outlet, Link} from 'react-router-dom';
-import logo from '../logo.svg';
+import fish from '../fish.png';
 import { Button, Form } from 'react-bootstrap'
 import { callOpenAI_API } from '../openAI-config';
-
+import light from "../light_mode.png";
+import dark from "../dark_mode.png";
 
 function MainLayout() {
   const [visible, setVisible] = useState<boolean>(true);
   const [message, updateMessage] = useState<string>("How can I make six figures"); // user message
   const [response, updateResponse] = useState<string>(""); // openai response
-
+  const [darkMode, setView] = useState<boolean>(false);
   
   // Get responses from OpenAI using "await callOpenAI_API(message)"
   // with message being the user input
@@ -24,6 +25,7 @@ function MainLayout() {
   }
 
   function toggleLightDark() {
+    setView(!darkMode);
     var element = document.body;
     element.classList.toggle("dark-mode")
   }
@@ -48,8 +50,15 @@ function MainLayout() {
           </li>
           <label className="switch">
             <input type="checkbox" id="light-dark-checkbox" onClick={() => toggleLightDark()}></input>
-            <span className="slider round"></span>
+            <span className="slider round">
+              {!darkMode ? 
+              <img src={light} className='dark-mode-img' alt=""/> :
+              <img src={dark} className='dark-mode-img' alt=""/>
+              }
+            </span>
           </label>
+          
+         
         </ul>
       </nav>
       
@@ -73,14 +82,14 @@ function MainLayout() {
 
         <div>
           <Button className="chat-button" onClick={() => setVisible(!visible)}>
-            🚗
+            {/* 🚗 */}
           </Button>
         </div>
       </div>
 
       <header className="App-footer">
         <div style={{textAlign: "left", display: "inline-block", width: "50%"}}>
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={fish} className="App-logo" alt="logo" />
           CISC275 Career Quiz Project
         </div>
         <div style={{textAlign: "right", display: "inline-block", width: "50%", paddingRight: "30px"}}>
